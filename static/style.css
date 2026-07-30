@@ -92,3 +92,39 @@ h2 { /* Targets h2 headings*/
     box-shadow: 0 8px 16px rgba(0,0,0,0.15);
 
 }
+
+/* Styles content sections on revision pages */
+.section{
+
+    /*Gives each section a white card background */
+    background-color: white;
+
+    /* Adds space inside */
+    padding: 20px;
+
+    /* Rounds the corners */
+    border-radius: 10px;
+
+    /* Adds space between sections*/
+    margin-bottom: 20px;
+
+    /* Adds depth */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Styles character information cards */
+.character{
+
+    /* Adds a light background */
+    background-color: #f4f6f8;
+
+    /* Adds space inside */
+    padding: 15px;
+
+    /* Adds space between characters */
+    margin-bottom: 15px;
+
+    /* Rounds corners */
+    border-radius: 8px;
+    
+}
