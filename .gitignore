@@ -1,0 +1,11 @@
+#Ignores the VM
+.venv/ 
+
+#Ignore python temp files
+__pycache__/ 
+
+#Ignore compiled python files
+*.pyc 
+
+#Ignores personal vs code settings
+.vscode/ 
