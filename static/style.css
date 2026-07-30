@@ -46,7 +46,7 @@ h2 { /* Targets h2 headings*/
     padding: 20px;
 
     /* Makes rounded corners */
-    border-radius: 10;
+    border-radius: 10px;
 
     /* Removes the dault hyperlink underline */
     text-decoration: none;
@@ -59,12 +59,36 @@ h2 { /* Targets h2 headings*/
 
     /* Makes changes happen smoothly */
     transition: 0.2s;
+
+    /* Adds depth to the cards */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
 }
+
+/* Styles the inside of each card */
+.card h3{
+
+    /* Removes the default large gap above headings */
+    margin-top: 0;
+
+}
+
+/* Styles the description inside each card */
+.card p {
+
+     /* Makes the description easier to read */
+    line-height: 1.5;
+
+}
+
+
 
 /* Changes the card when the user hovers over it */
 .card:hover {
 
     /* Makes the card move slightly upwards */
-    transform: translate(-5px);
+    transform: translateY(-5px);
+
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
 
 }
