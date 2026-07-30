@@ -14,21 +14,49 @@ def jekyll_hyde(): #Creating Jekyll and Hyde function
 
     return render_template("jekyll_hyde.html") #Return correct page to user
 
-@app.route("/macbeth") #Sets the route for the "Macbeth" quiz
+@app.route("/macbeth") #Sets the route for the "Macbeth" page
 
-def Macbeth(): #Creating Macbeth function
+def macbeth(): #Creating Macbeth function
 
     return render_template("macbeth.html") #Return correct page to user
 
-@app.route("/an-inspector-calls") #Sets the route for "An inspector calls" quiz
+@app.route("/an-inspector-calls") #Sets the route for "An inspector calls" page
 
 def an_inspector_calls(): #Creating "An inspector calls function"
 
     return render_template("an_inspector_calls.html") #Return correct page to user 
 
-@app.route("/war-conflict-poetry") #Sets route for poetry quiz
+@app.route("/war-conflict-poetry") #Sets route for poetry page
 
 def war_conflict_poetry(): #Creating poetry function
 
     return render_template("war_conflict_poetry.html") #Return correct page to user
+
+@app.route("/flashcards") #Sets route for flashcards
+
+def flashcards(): #Creating flashcards function
+
+    return render_template("flashcards.html") #Return correct page to user
+
+@app.route("/quiz") #Sets route for quiz
+
+def quiz(): #Creating quiz function
+
+    return render_template("quiz.html") #Return correct page to user
+
+@app.route("/planner") #Sets route for planner 
+
+def planner(): #Creating planner function
+
+    return render_template("planner.html") #Return correct page to user
+
+@app.route("/progress") #Sets route for progress 
+
+def progress(): #Creating progress function
+
+    return render_template("progress.html") #Return correct page to user
+
+
+
+
 app.run()
