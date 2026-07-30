@@ -1,0 +1,70 @@
+body { /* Targets the entire page */
+
+    font-family: Arial, sans-serif; /* Sets the font and backup */
+
+    background-color: #f4f6f8; /* Background colour using hex code */
+
+    margin: 0; /* Removes automatic margin from browser */
+
+    padding: 20px; /* Adds space inside the page */
+
+}
+    
+h1 { /* Targets biggest heading */
+
+    text-align: center; /* Centers the text */
+
+}
+
+h2 { /* Targets h2 headings*/
+
+    margin-top: 30px; /* Adds gap between each section */
+
+}
+
+/* Holds all of the revision cards */
+.card-container {
+
+    /* Places cards next to each other */
+    display: flex;
+
+    /* Allows cards to move to a new line on smaller screens */
+    flex-wrap: wrap;
+
+    /* Adds spaces between the cards */
+    gap: 20px;
+
+}
+
+/* Styles each revision card */
+.card{
+
+    /* Gives the card a white background */
+    background-color: white;
+
+    /* Adds space insde the card */
+    padding: 20px;
+
+    /* Makes rounded corners */
+    border-radius: 10;
+
+    /* Removes the dault hyperlink underline */
+    text-decoration: none;
+
+    /* Changes text colour */ 
+    color: black;
+
+    /* Makes the card bigger and easier to tap on */
+    width: 200px;
+
+    /* Makes changes happen smoothly */
+    transition: 0.2s;
+}
+
+/* Changes the card when the user hovers over it */
+.card:hover {
+
+    /* Makes the card move slightly upwards */
+    transform: translate(-5px);
+
+}

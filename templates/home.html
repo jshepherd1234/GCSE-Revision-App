@@ -2,30 +2,55 @@
 
 <html>
 
+<!-- Info about the page-->
+<head> 
+
+    <title>GCSE English Literature Revision</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<!-- The actual page content-->
+<body>
+
 <h1>GCSE English Literature Revision</h1>
 
 <h2>Your texts</h2>
 
-<a href="/macbeth">Macbeth</a>
-<br>
+<div class="card-container">
 
-<a href="/jekyll-hyde">Jekyll & Hyde</a>
-<br>
+    <a href="/macbeth" class="card">
+        Macbeth
+    </a>
 
-<a href="/an-inspector-calls">An Inspector Calls</a>
-<br>
+    <a href="/jekyll-hyde" class="card">
+        Jekyll & Hyde
+    </a>
 
-<a href="/war-conflict-poetry">War & Conflict Poetry</a>
-<br>
+    <a href="/an-inspector-calls" class="card">
+        An Inspector Calls
+    </a>
+
+    <a href="/war-conflict-poetry" class="card">
+        War and Conflict Poetry
+    </a>
+
+</div>
 
 <h2>Revision Tools</h2>
 
 <a href="/quiz">Quiz</a>
 <br>
 
+<a href="/flashcards">Flashcards</a>
+<br>
+
 <a href="/planner">Essay Planner</a>
 <br>
 
 <a href="/progress">Progress Tracker</a>
+
+</body>
 
 </html>
