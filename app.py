@@ -8,6 +8,25 @@ def homepage(): #Creates function for the homepage
 
     return render_template("home.html")
 
+@app.route("/english") #Sets route for the general english page 
+
+def english(): #Creates function for english page
+
+    return render_template("english.html") #Return correct page to user
+
+@app.route("/english-literature")
+
+def english_literture():
+
+    return render_template("english_literature.html")
+
+@app.route("/english-language")
+
+def english_language():
+
+    return render_template("english)_langauge.html")
+
+
 @app.route("/jekyll-hyde") #Sets route for Jekyll and hyde page
 
 def jekyll_hyde(): #Creating Jekyll and Hyde function
