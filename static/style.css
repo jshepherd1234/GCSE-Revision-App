@@ -128,3 +128,29 @@ h2 { /* Targets h2 headings*/
     border-radius: 8px;
     
 }
+
+/* Styles links that takes user back to previous pages */
+.back-buttton{
+
+    /* Makes it look like a button */
+    display: inline-block;
+
+    /* Adds space inside */
+    padding: 10px 15px;
+
+    /* Gives it a background */
+    background-color: white;
+
+    /* Rounds the corners */
+    border-radius: 8px;
+
+    /* Removes underline */
+    text-decoration: none;
+
+    /*Changes the text colour */
+    color: black;
+
+    /* Adds space above the button */
+    margin-top: 20px;
+
+}
