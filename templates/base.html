@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <!-- Allows other pages to insert their title -->
+
+    <title>
+
+        {% block title %}GCSE Revision App{% endblock %} 
+
+    </title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <a href="javascript:history.back()">
+
+        <- Back
+
+    </a>
+
+    <a href="/">
+
+        Home
+
+    </a>
+
+</nav>
+
+<!-- Other pages can put their content here -->
+{% block content %}
+
+{% endblock %}
+
+</body>
+
+</html>

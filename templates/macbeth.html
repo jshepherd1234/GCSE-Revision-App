@@ -1,18 +1,10 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<html>
+{% block title %}
+GCSE English Literature Revision - Macbeth
+{% endblock %}
 
-<head>
-
-    <title>Macbeth Revision</title>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-</head>
-
-</html>
-
-<body>
+{% block content %}
 
 <h1>Macbeth Revison</h1>
 
@@ -84,11 +76,4 @@
 
 </div>
 
-</body>
-
-<a href="/" class="back-button">
-
-    <- Back to English Literature
-</a>
-
-</html>
+{% endblock %}

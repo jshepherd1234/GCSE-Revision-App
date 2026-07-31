@@ -1,22 +1,10 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<html>
+{% block title %}
+English Revision
+{% endblock %}
 
-<head>
-
-    <title> English Revision </title>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"">
-
-</head>
-
-<body>
-
-<a href="/" class="back-button">
-
-    <- Back to Revision Hub
-</a>
-
+{% block content %}
 
 <h1> English Revision </h1>
 
@@ -48,6 +36,4 @@
 
 </div>
 
-</body>
-
-</html>
+{% endblock %}

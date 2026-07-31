@@ -130,27 +130,35 @@ h2 { /* Targets h2 headings*/
 }
 
 /* Styles links that takes user back to previous pages */
-.back-buttton{
+.navbar{
 
-    /* Makes it look like a button */
-    display: inline-block;
+    /* Places item next to each other */
+    display: flex;
+
+    /* Adds space between buttons */
+    justify-content: space-between;
 
     /* Adds space inside */
-    padding: 10px 15px;
+    padding: 10px 20px;
 
-    /* Gives it a background */
-    background-color: white;
+    /* White background */
+    background: white;
 
-    /* Rounds the corners */
-    border-radius: 8px;
+    /* Rounded corners */
+    border-radius: 10px;
+
+    /* Space below navbar */
+    margin-bottom: 20px;
+
+}
+
+/* Styles navigation links */
+.navbar a {
 
     /* Removes underline */
     text-decoration: none;
 
-    /*Changes the text colour */
+    /* text colour */
     color: black;
-
-    /* Adds space above the button */
-    margin-top: 20px;
-
+    
 }

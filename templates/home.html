@@ -1,18 +1,10 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 
-<html>
+{% block title %}
+GCSE Revision app
+{% endblock %}
 
-<!-- Info about the page-->
-<head> 
-
-    <title>GCSE Revision app</title>
-    
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-</head>
-
-<!-- The actual page content-->
-<body>
+{% block content %}
 
 <h1>GCSE Revision app</h1>
 
@@ -120,6 +112,4 @@
 
 </div>
 
-</body>
-
-</html>
+{% endblock %}
