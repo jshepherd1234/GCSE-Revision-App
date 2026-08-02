@@ -53,6 +53,12 @@ def macbeth_characters():
 
     return render_template("macbeth_characters.html")
 
+@app.route("/macbeth/themes")
+
+def macbeth_themes():
+
+    return render_template("macbeth_themes.html")
+
 @app.route("/an-inspector-calls") #Sets the route for "An inspector calls" page
 
 def an_inspector_calls(): #Creating "An inspector calls function"
@@ -90,6 +96,6 @@ def progress(): #Creating progress function
     return render_template("progress.html") #Return correct page to user
 
 
+if __name__ == "__main__":
 
-
-app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)

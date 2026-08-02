@@ -6,10 +6,16 @@ body { /* Targets the entire page */
 
     margin: 0; /* Removes automatic margin from browser */
 
-    padding: 20px; /* Adds space inside the page */
+    padding: 0; /* Adds space inside the page */
 
 }
-    
+
+* {
+
+    box-sizing: border-box;
+
+} 
+
 h1 { /* Targets biggest heading */
 
     text-align: center; /* Centers the text */
@@ -82,7 +88,6 @@ h2 { /* Targets h2 headings*/
     line-height: 1.5;
 
 }
-
 
 
 /* Changes the card when the user hovers over it */
@@ -163,17 +168,22 @@ h2 { /* Targets h2 headings*/
     /* Aligns items */
     align-items: center;
 
+    width: calc(100% - 40px);
+
+    max-width: 900px;
+
+    box-sizing: border-box;
+
     /* Adds space inside */
-    padding: 10px 20px;
+    padding: 15px 20px;
+
+    margin: 20px auto 25px;
 
     /* White background */
     background: white;
 
     /* Rounded corners */
     border-radius: 10px;
-
-    /* Space below navbar */
-    margin-bottom: 25px;
 
     /* Creates a box shadow */
     box-shadow: 0 2px 8px rgba(0,0,0,0.1)
@@ -197,11 +207,25 @@ h2 { /* Targets h2 headings*/
 /* Applies only on phones */
 @media (max-width: 700px) {
 
+    .navbar,
+    
+    .page-container {
+
+        width: calc(100% - 32px);
+
+    }
+
     .card {
 
         max-width: none;
 
         width: 100%;
+
+    }
+
+    .character-card{
+
+        padding: 24px;
 
     }
 
@@ -212,7 +236,7 @@ h2 { /* Targets h2 headings*/
 
     max-width: none;
 
-    width: 100;
+    width: 100%;
 
 }
 
@@ -226,3 +250,16 @@ h2 { /* Targets h2 headings*/
     padding-left: 20px;
 
 }
+
+.page-container {
+
+    width: calc(100% - 40px);
+
+    max-width: 900px;
+
+    margin: 30px auto;
+
+    box-sizing: border-box;
+
+}
+
