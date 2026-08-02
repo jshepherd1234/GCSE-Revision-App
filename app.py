@@ -39,6 +39,20 @@ def macbeth(): #Creating Macbeth function
 
     return render_template("macbeth.html") #Return correct page to user
 
+#Setting up the overview system for Macbeth
+#----------------------------------------
+@app.route("/macbeth/overview")
+
+def macbeth_overview():
+
+    return render_template("macbeth_overview.html")
+
+@app.route("/macbeth/characters")
+
+def macbeth_characters():
+
+    return render_template("macbeth_characters.html")
+
 @app.route("/an-inspector-calls") #Sets the route for "An inspector calls" page
 
 def an_inspector_calls(): #Creating "An inspector calls function"

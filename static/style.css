@@ -95,6 +95,26 @@ h2 { /* Targets h2 headings*/
 
 }
 
+/* Welcome section to the home page */
+.welcome-card{
+
+    background-color: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    margin-bottom: 30px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.welcome-card h2 {
+
+    margin-top: 0;
+
+}
+
 /* Styles content sections on revision pages */
 .section{
 
@@ -184,5 +204,25 @@ h2 { /* Targets h2 headings*/
         width: 100%;
 
     }
-    
+
+}
+
+/* Character Revision cards */
+.character-card{
+
+    max-width: none;
+
+    width: 100;
+
+}
+
+.character-card h2 {
+
+    margin-top: 0;
+}
+
+.character-card ul {
+
+    padding-left: 20px;
+
 }
