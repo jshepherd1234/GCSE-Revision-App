@@ -59,6 +59,46 @@ def macbeth_themes():
 
     return render_template("macbeth_themes.html")
 
+#Macbeth character route
+#-----------------------
+@app.route("/macbeth/characters/macbeth")
+
+def macbeth_character():
+
+    return render_template("macbeth_character.html")
+
+#Lady Macbeth character route
+#----------------------------
+@app.route("/macbeth/characters/lady-macbeth")
+
+def lady_macbeth_character():
+
+    return render_template("lady_macbeth_character.html")
+
+#Banquo character route
+#----------------------
+@app.route("/macbeth/characters/banquo")
+
+def banquo_character():
+
+    return render_template("banquo_character.html")
+
+#Macduff character route
+#-----------------------
+@app.route("/macbeth/characters/macduff")
+
+def macduff_character():
+
+    return render_template("macduff_character.html")
+
+#Witches character route
+#----------------------
+@app.route("/macbeth/characters/witches")
+
+def witches_character():
+
+    return render_template("witches_character.html")
+
 @app.route("/an-inspector-calls") #Sets the route for "An inspector calls" page
 
 def an_inspector_calls(): #Creating "An inspector calls function"

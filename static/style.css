@@ -263,3 +263,21 @@ h2 { /* Targets h2 headings*/
 
 }
 
+/* Styles quote revision cards */
+.quote-card {
+
+    background-color: #f4f6f8;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+    margin-bottom: 15px;
+
+}
+
+.quote-card h3 {
+
+    margin-top: 0;
+    
+}
