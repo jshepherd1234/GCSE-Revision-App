@@ -2,6 +2,311 @@ from flask import Flask, render_template #Importing the flask library which will
 
 app = Flask(__name__) #Creates the flask application
 
+macbeth_data = {
+
+    "name": "Macbeth",
+
+    "overview": """
+
+    Macbeth is the tragic hero of Shakespeare's play.
+    He begins as a respected and courageous soldier, but his ambition 
+    and desire for power lead him towards violence and his downfall.
+    """,
+
+    "development": [
+
+        {
+
+            "title": "Beginning of the play",
+
+            "text": """
+            
+            Macbeth is presented as a brave and loyal soldier who is praised for his actions in battle.
+            """
+        },
+
+        {
+
+            "title": "Middle of the play",
+
+            "text": """
+
+            Macbeth becomes increasingly controlled by ambition and commits 
+            murder to secure his position as king.
+            """
+
+        },
+
+        {
+
+            "title": "End of the play",
+
+            "text": """
+
+            Macbeth becomes a rutheless tyrant and loses respect of those 
+            around him before being defeated.
+            """
+
+        }
+
+    ],
+
+    "relationships": [
+
+        {
+
+            "name": "Lady Macbeth",
+
+            "description": """
+
+            Lady MAcbeth initially encourages Macbeth to pursue power. However,
+            Macbeth later becomes more independent and increasinly ruthless.
+
+            """
+
+        },
+
+        {
+
+            "name": "Banquo",
+
+            "description": """
+
+            Banquo acts as a moral contrast to Macbeth. Both recieve prophecies,
+            but Banquo refuses to pursue them through violence.
+
+            """
+        },
+
+        {
+
+            "name": "The Witches",
+
+            "description": """
+
+            The Witches awaken Macbeth's ambition through their prophecies, but
+            Macbeth remains responsible for the decisions he makes.
+            """
+
+        }
+
+    ],
+
+    "themes": [
+
+        "Ambition",
+
+        "Power",
+
+        "Guilt",
+
+        "Supernatural"
+
+    ],
+
+    "quotes": [
+
+        {
+
+            "text": "Vaulting ambition",
+
+            "theme": "Ambition",
+
+            "explanation": """
+
+            Shows Macbeth recognising thathis ambition is pushing him towards destructive actions.
+            """
+
+        },
+
+        {
+
+            "text": "Is this a dagger which I see before me?",
+
+            "theme": "Supernatural / Guilt",
+
+            "explanation": """
+
+            Shows Macbeth's uncertainty before murdering Duncan and highlights
+            his internal conflict.
+            """
+
+        }
+
+    ],
+
+    "exam_tips": [
+
+        {
+
+            "tip": "Link Macbeth to ambition",
+
+            "reasoning": """
+
+            When writing about Macbeth, connect his actions to his overwhelming ambition and desire for power, and he allows his ambition to dictate his actions.
+            """ 
+
+        },
+
+        {
+
+            "tip": "Discuss change through the play",
+
+            "reasoning": """
+            
+            To achieve top marks, you need to speak about the play as a whole, this means comparing the noble warrior fighting for king and country at the beginning to the malicious tyrant at the end of the play and what causes this change.
+            """
+
+        },
+
+        {
+
+            "tip": "Context",
+
+            "reasoning": """
+
+            Link Macbeth's downfall to Jacobean beliefs about kingship, the supernatural and the consequences of disrupting the natural order. Again to acheive top marks, showing you know and understand the context of the play is crucial to achieveing the top bands/marks on the mark scheme.
+            """
+
+        }
+
+    ],
+
+}
+
+
+lady_macbeth_data = {
+
+    "name": "lady Macbeth",
+
+    "overview": """
+
+    Lady Macbeth is one of Shakespeare's most ambitious characters.
+    She encourages Macbeth to pursue power, but later becomes overwhelmed
+    by guilt and the consequences of their actions.
+
+    """,
+
+    "development": [
+
+        {
+
+            "title": "Beginning of the play",
+
+            "text": """
+
+            Lady Macbeth is presented as powerful, determined and willing to
+            manipulate Macbeth to achieve their ambitions.
+
+            """
+        },
+
+        {
+
+            "title": "Middle of the play",
+
+            "text": """
+
+            As Macbeth becomes more independent and ruthless, Lady Macbeth 
+            begins to lose control.
+
+            """
+
+        },
+
+        {
+
+            "title": "End of the play",
+
+            "text": """
+
+            Lady Macbeth is consumed by guilt and her mental decline shows the
+            consequences of their actions.
+
+            """
+        }
+
+    ],
+
+    "themes": [
+
+        "Ambition",
+
+        "Guilt",
+
+        "Power",
+
+        "Gender"
+
+    ],
+
+    "relationships": [
+
+        {
+
+            "name": "Macbeth",
+
+            "description": """
+
+            Lady Macbeth intially appears more dominant than Macbeth and encourages
+            him to murder Duncan. Their relationship weakens as Macbeth beginsacting
+            without consulting her.
+
+            """
+        }
+    ]
+
+    "quotes": [
+
+        {
+
+            "text": "Unsex me here",
+
+            "theme": "Gender / Power",
+
+            "explanation": """
+
+            Shows Lady Macbeth rejecting traditional expectations of women
+            because she wants more power.
+
+            """
+
+        },
+
+        {
+
+            "text": "Out, damned spot!",
+
+            "theme": "Guilt",
+
+            "explanation": """
+
+            Shows Lady Macbeth's guilt becoming impossible to hide.
+
+            """
+
+        }
+
+    ],
+
+    "exam_tips": [
+
+        {
+
+            "tip": "Compare Lady Macbeth and Macbeth",
+
+            "reasoning": """
+
+            Explore how their relationship changes throughout the play and
+            how Macbeth eventually becomes more powerful than Lady Macbeth.
+
+            """
+
+        }
+
+    ]
+}
+
 @app.route("/") #Sets the route for the homepage
 
 def homepage(): #Creates function for the homepage
@@ -65,7 +370,11 @@ def macbeth_themes():
 
 def macbeth_character():
 
-    return render_template("macbeth_character.html")
+    return render_template(
+        "character.html",
+        character=macbeth_data
+    )
+
 
 #Lady Macbeth character route
 #----------------------------
@@ -73,7 +382,10 @@ def macbeth_character():
 
 def lady_macbeth_character():
 
-    return render_template("lady_macbeth_character.html")
+    return render_template(
+        "character.html",
+        character=lady_macbeth_data
+    )
 
 #Banquo character route
 #----------------------

@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ character.name }}
+{% endblock %}
+
+{% block content %}
+
+<h1>{{ character.name }}</h1>
+
+<div class="section">
+
+    <h2>Overview</h2>
+
+    <p>
+
+        {{ character.overview }}
+    </p>
+
+</div>
+
+<div class="section">
+
+    <h2>Character Development</h2>
+
+    {% for stage in character.development %}
+
+    <div class="character">
+
+        <h3>{{ stage.title }}</h3>
+
+        <p>
+
+            {{ stage.text }}
+
+        </p>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<div class="section">
+
+    <h2>Relationships</h2>
+
+    {% for relationship in character.relationships %}
+
+    <div class="character">
+
+        <h3>{{ relationship.name }}</h3>
+
+        <p>
+
+            {{ relationship.description }}
+
+        </p>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<div class="section">
+
+    <h2>Key Themes</h2>
+
+    <ul>
+
+        {% for theme in character.themes %}
+
+            <li>{{ theme }}</li>
+
+        {% endfor %}
+
+    </ul>
+
+</div>
+
+<div class="section">
+
+    <h2>Key Quotes</h2>
+
+    {% for quote in character.quotes %}
+
+    <div class="quote-card">
+
+        <h3>{{ quote.text }}</h3>
+
+        <p>
+
+            <strong>Theme:</strong> {{ quote.theme }}
+
+        </p>
+
+        <p>
+
+            {{ quote.explanation }}
+
+        </p>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<div class="section">
+
+    <h2>Exam tips</h2>
+
+    {% for tip in character.exam_tips %}
+
+    <div class="character">
+
+        <h3>{{ tip.tip }}</h3>
+
+        <p>
+
+            {{ tip.reasoning }}
+
+        </p>
+
+    </div>
+
+    {% endfor %}
+
+{% endblock %}
