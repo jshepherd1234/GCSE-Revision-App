@@ -1,4 +1,4 @@
-from flask import Flask, render_template #Importing the flask library which will handle requests and brininging in the HTML file
+from flask import Flask, render_template, request #Importing the flask library which will handle requests and brininging in the HTML file
 from jinja2 import TemplateNotFound
 
 app = Flask(__name__) #Creates the flask application
@@ -37,7 +37,7 @@ page_status = {
 
     #Features
     #========
-    "quiz.html": False,
+    "quiz.html": True,
 
     "flashcards.html": False,
 
@@ -681,6 +681,109 @@ macduff_data = {
 
 }
 
+macbeth_quiz_questions = [
+
+    {
+
+        "question": "What is Macbeth's hamartia?",
+
+        "options": [
+
+            "Loyalty",
+
+            "Ambition",
+
+            "Kindness",
+
+            "Patience"
+        ],
+
+        "answer": "Ambition"
+
+    },
+
+    {
+
+        "question": "Who first tells Macbeth he will become king?",
+
+        "options": [
+
+            "Banquo",
+
+            "Lady Macbeth",
+
+            "The Witches",
+
+            "Macduff"
+
+        ],
+
+        "answer": "The Witches"
+
+    },
+
+    {
+
+        "question": "Which character acts as a moral contrast to Macbeth?",
+
+        "options": [
+
+            "Banquo",
+
+            "Lady Macbeth",
+
+            "Malcolm",
+
+            "The Porter"
+
+        ],
+
+        "answer": "Banquo"
+
+    },
+
+    {
+    
+        "question": "Who kills Macbeth at the end of the play?",
+    
+        "options": [
+    
+            "Malcolm",
+    
+            "Banquo",
+    
+            "Macduff",
+    
+            "Lady Macbeth"
+    
+        ],
+    
+        "answer": "Macduff"
+    
+    },
+
+    {
+    
+        "question": "Which theme is most closely linked to Lady Macbeth's decline?",
+    
+        "options": [
+    
+            "Comedy",
+    
+            "Guilt",
+    
+            "Ambition",
+    
+            "Appearence versus reality"
+    
+        ],
+    
+        "answer": "Guilt"
+    
+    },
+
+]
+
 @app.route("/") #Sets the route for the homepage
 
 def homepage(): #Creates function for the homepage
@@ -790,7 +893,57 @@ def macduff_character():
 def witches_character():
 
     return render_page_or_coming_soon("witches_character.html")
-        
+
+#Quiz route
+#==========
+@app.route("/quiz/macbeth", methods=["GET", "POST"])
+
+def macbeth_quiz():
+
+    score = None
+
+    results = []
+
+    if request.method == "POST":
+
+        score = 0
+
+        for question_number, question in enumerate(macbeth_quiz_questions):
+
+            user_answer = request.form.get(
+
+                f"question_{question_number}"
+
+            )
+
+            is_correct = user_answer == question["answer"]
+
+            if is_correct:
+
+                score += 1
+
+            results.append({
+
+                "user_answer": user_answer,
+
+                "correct_answer": question["answer"],
+
+                "is_correct": is_correct
+
+            })
+
+    return render_template(
+
+        "macbeth_quiz.html",
+
+        questions = macbeth_quiz_questions,
+
+        score = score,
+
+        results = results
+
+    )
+
 
 @app.route("/an-inspector-calls") #Sets the route for "An inspector calls" page
 
