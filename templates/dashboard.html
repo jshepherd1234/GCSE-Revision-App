@@ -30,4 +30,28 @@ Account type: {{ role }}
 
 </div>
 
+<div class="section">
+    
+{% if role == "main" %}
+
+    <h2>Admin tools</h2>
+
+    <a href="{{ url_for("create_tester") }}" class="button">
+
+    Create Tester Account
+
+    </a>
+
+{% elif role == "tester" %}
+
+    <h2>Testing Tools</h2>
+
+{% else %}
+
+    <h2>Revision</h2>
+
+{% endif %}
+
+</div>
+
 {% endblock %}

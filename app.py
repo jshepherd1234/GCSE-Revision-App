@@ -877,6 +877,65 @@ def logout():
 
     return redirect(url_for("homepage"))
 
+#Create tester
+#=============
+@app.route("/create-tester", methods=["GET", "POST"])
+
+def create_tester():
+
+    if session.get("role") != "main":
+
+        return "Access denied", 403
+
+    if request.method == "POST":
+
+        username = request.form["username"]
+
+        password = request.form["password"]
+
+        hashed_password = generate_password_hash(password)
+
+        connection = get_db_connection()
+
+        try:
+
+            connection.execute(
+
+                """
+
+                INSERT INTO users
+
+                (username, password, role)
+
+                VALUES (?, ?, ?)
+
+                """,
+
+                (
+
+                    username,
+
+                    hashed_password,
+
+                    "tester"
+
+                )
+
+            )
+
+            connection.commit()
+
+        except sqlite3.IntegrityError:
+
+            return "Username already exists"
+
+        finally:
+
+            connection.close()
+
+        return redirect(url_for("dashboard"))
+
+    return render_template("create_tester.html")
 
 @app.route("/english") #Sets route for the general english page 
 
