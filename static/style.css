@@ -208,7 +208,6 @@ h2 { /* Targets h2 headings*/
 @media (max-width: 700px) {
 
     .navbar,
-    
     .page-container {
 
         width: calc(100% - 32px);
@@ -231,14 +230,38 @@ h2 { /* Targets h2 headings*/
 
 }
 
+.navbar{
+
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 12px;
+
+}
+
+.navbar > a:first-child{
+
+    align-self: flex-start;
+}
+
 .nav-right{
 
-    display: flex;
+    display: grid;
 
-    gap: 15px;
+    grid-template-columns: repeat(2, minmax(0,1 fr));
 
-    align-items: center;
+    gap: 10px;
 
+    width: 100%;
+
+}
+
+.nav-right a{
+
+    text-align: center;
+
+    overflow-wrap: anywhere;
 }
 
 /* Character Revision cards */
@@ -521,43 +544,4 @@ button.button{
 
     margin: 10px;
 
-}
-
-@media(max-width: 700px){
-
-    .navbar{
-
-        flex-direction: column;
-
-        align-items: stretch;
-
-        gap: 12px;
-
-    }
-
-    .navbar >a:first-child{
-
-        align-self: flex-start;
-
-    }
-
-    .nav-right{
-
-        display: grid;
-
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-
-        gap: 10px;
-
-        width: 100%;
-
-    }
-
-    .nav-right a{
-
-        text-align: center;
-
-        overflow-wrap: anywhere;
-    }
-    
 }
