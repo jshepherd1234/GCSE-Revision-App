@@ -281,3 +281,39 @@ h2 { /* Targets h2 headings*/
     margin-top: 0;
     
 }
+
+.error-page {
+
+    text-align: center;
+
+    padding: 40px;
+
+}
+
+.error-page h1 {
+
+    margin-bottom: 20px;
+
+}
+
+.error-page p {
+
+    margin-bottom: 30px;
+
+}
+
+.button {
+
+    display: inline-block;
+
+    padding: 12px 25px;
+
+    background: white;
+
+    border-radius: 12px;
+    
+    text-decoration: none;
+
+    font-weight: bold;
+    
+}

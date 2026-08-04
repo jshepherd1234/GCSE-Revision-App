@@ -1,7 +1,76 @@
 from flask import Flask, render_template #Importing the flask library which will handle requests and brininging in the HTML file
+from jinja2 import TemplateNotFound
 
 app = Flask(__name__) #Creates the flask application
 
+page_status = {
+
+    "jekyll_hyde.html": False,
+
+    "an_inspector_calls.html": False,
+
+    "war_conflict_poetry.html": False,
+
+    "macbeth.html": True,
+
+    "character.html": True,
+
+    "macbeth_overview.html": True,
+
+    "macbeth)_characters.html": True,
+
+    "macbeth_themes.html": True,
+
+    #Other subjects
+    #==============
+    "biology.html": False,
+
+    "chemistry.html": False,
+
+    "physics.html": False,
+
+    "maths.html": False,
+
+    "geography.html": False,
+
+    "cscience.html": False,
+
+    #Features
+    #========
+    "quiz.html": False,
+
+    "flashcards.html": False,
+
+    "planner.html": False,
+
+    "progress.html": False
+
+}
+
+def render_page_or_coming_soon(template, **kwargs):
+
+    if page_status.get(template) == False: 
+
+        return render_template(
+            "coming_soon.html",
+            page_name = template
+        )
+
+    try:
+
+        return render_template(
+            template,
+            **kwargs
+        )
+
+    except TemplateNotFound:
+
+        return render_template(
+            "coming_soon.html",
+            page_name = template
+        )
+
+    
 macbeth_data = {
 
     "name": "Macbeth",
@@ -603,7 +672,7 @@ macduff_data = {
 
             Compare how Macduff refuses to swear loyalty to Macbeth and how he seeks jusctice and to put Malcolm,
             the rightful king, to the throne.
-            
+
             """
 
         }
@@ -616,38 +685,38 @@ macduff_data = {
 
 def homepage(): #Creates function for the homepage
 
-    return render_template("home.html")
+    return render_page_or_coming_soon("home.html")
 
 @app.route("/english") #Sets route for the general english page 
 
 def english(): #Creates function for english page
 
-    return render_template("english.html") #Return correct page to user
+    return render_page_or_coming_soon("english.html") #Return correct page to user
 
 @app.route("/english-literature")
 
 def english_literture():
 
-    return render_template("english_literature.html")
+    return render_page_or_coming_soon("english_literature.html")
 
 @app.route("/english-language")
 
 def english_language():
 
-    return render_template("english)_langauge.html")
+    return render_page_or_coming_soon("english)_langauge.html")
 
 
 @app.route("/jekyll-hyde") #Sets route for Jekyll and hyde page
 
 def jekyll_hyde(): #Creating Jekyll and Hyde function
 
-    return render_template("jekyll_hyde.html") #Return correct page to user
+    return render_page_or_coming_soon("jekyll_hyde.html") #Return correct page to user
 
 @app.route("/macbeth") #Sets the route for the "Macbeth" page
 
 def macbeth(): #Creating Macbeth function
 
-    return render_template("macbeth.html") #Return correct page to user
+    return render_page_or_coming_soon("macbeth.html") #Return correct page to user
 
 #Setting up the overview system for Macbeth
 #----------------------------------------
@@ -655,19 +724,19 @@ def macbeth(): #Creating Macbeth function
 
 def macbeth_overview():
 
-    return render_template("macbeth_overview.html")
+    return render_page_or_coming_soon("macbeth_overview.html")
 
 @app.route("/macbeth/characters")
 
 def macbeth_characters():
 
-    return render_template("macbeth_characters.html")
+    return render_page_or_coming_soon("macbeth_characters.html")
 
 @app.route("/macbeth/themes")
 
 def macbeth_themes():
 
-    return render_template("macbeth_themes.html")
+    return render_page_or_coming_soon("macbeth_themes.html")
 
 #Macbeth character route
 #-----------------------
@@ -675,7 +744,7 @@ def macbeth_themes():
 
 def macbeth_character():
 
-    return render_template(
+    return render_page_or_coming_soon(
         "character.html",
         character=macbeth_data
     )
@@ -687,7 +756,7 @@ def macbeth_character():
 
 def lady_macbeth_character():
 
-    return render_template(
+    return render_page_or_coming_soon(
         "character.html",
         character=lady_macbeth_data
     )
@@ -698,7 +767,7 @@ def lady_macbeth_character():
 
 def banquo_character():
 
-    return render_template(
+    return render_page_or_coming_soon(
         "character.html",
         character=banquo_data
     )
@@ -709,7 +778,10 @@ def banquo_character():
 
 def macduff_character():
 
-    return render_template("macduff_character.html")
+    return render_page_or_coming_soon(
+        "character.html",
+        character=macduff_data
+    )
 
 #Witches character route
 #----------------------
@@ -717,44 +789,56 @@ def macduff_character():
 
 def witches_character():
 
-    return render_template("witches_character.html")
+    return render_page_or_coming_soon("witches_character.html")
+        
 
 @app.route("/an-inspector-calls") #Sets the route for "An inspector calls" page
 
 def an_inspector_calls(): #Creating "An inspector calls function"
 
-    return render_template("an_inspector_calls.html") #Return correct page to user 
+    return render_page_or_coming_soon("an_inspector_calls.html") #Return correct page to user 
 
 @app.route("/war-conflict-poetry") #Sets route for poetry page
 
 def war_conflict_poetry(): #Creating poetry function
 
-    return render_template("war_conflict_poetry.html") #Return correct page to user
+    return render_page_or_coming_soon("war_conflict_poetry.html") #Return correct page to user
 
 @app.route("/flashcards") #Sets route for flashcards
 
 def flashcards(): #Creating flashcards function
 
-    return render_template("flashcards.html") #Return correct page to user
+    return render_page_or_coming_soon("flashcards.html") #Return correct page to user
 
 @app.route("/quiz") #Sets route for quiz
 
 def quiz(): #Creating quiz function
 
-    return render_template("quiz.html") #Return correct page to user
+    return render_page_or_coming_soon("quiz.html") #Return correct page to user
 
 @app.route("/planner") #Sets route for planner 
 
 def planner(): #Creating planner function
 
-    return render_template("planner.html") #Return correct page to user
+    return render_page_or_coming_soon("planner.html") #Return correct page to user
 
 @app.route("/progress") #Sets route for progress 
 
 def progress(): #Creating progress function
 
-    return render_template("progress.html") #Return correct page to user
+    return render_page_or_coming_soon("progress.html") #Return correct page to user
 
+@app.errorhandler(404)
+
+def page_not_found(error):
+
+    return render_template("404.html"), 404
+
+@app.errorhandler(TemplateNotFound)
+
+def template_not_found(error):
+
+    return render_template("coming_soon.html"), 200
 
 if __name__ == "__main__":
 
