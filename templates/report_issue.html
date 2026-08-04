@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}
+Report issue
+{% endblock %}
+
+{% block content %}
+
+<h1>Report an Issue</h1>
+
+<div class="section">
+
+<form method="POST">
+
+<label>
+
+Page
+
+</label>
+
+<input
+
+type="text"
+
+name="page"
+
+placeholder="Example: Macbeth Quiz"
+
+required
+>
+
+<label>
+
+Category
+
+</label>
+
+<select name="category">
+
+<option value="Content Error">
+
+Content Error
+
+</option>
+
+<option value="Bug">
+
+Bug
+
+</option>
+
+<option value="Suggestion">
+
+Suggestion
+
+</option>
+
+</select>
+
+<label>
+
+Description
+
+</label>
+
+<textarea
+
+name="message"
+
+rows="5"
+
+required
+
+></textarea>
+
+<button type="submit" class="button">
+
+Submit Report
+
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}

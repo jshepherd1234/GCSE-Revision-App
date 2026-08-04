@@ -46,6 +46,30 @@ def create_tables():
 
     """)
 
+    connection.execute("""
+    
+    CREATE TABLE IF NOT EXISTS reports (
+    
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        
+        user_id INTEGER NOT NULL,
+        
+        page TEXT NOT NULL,
+        
+        category TEXT NOT NULL,
+        
+        message TEXT NOT NULL,
+        
+        status TEXT NOT NULL DEFAULT 'Open',
+        
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        
+        FOREIGN KEY(user_id) REFERENCES users(id)
+        
+    )
+    
+    """)
+
     connection.commit()
 
     connection.close()
@@ -936,6 +960,102 @@ def create_tester():
         return redirect(url_for("dashboard"))
 
     return render_template("create_tester.html")
+
+
+@app.route("/report-issue", methods=["GET", "POST"])
+
+def report_issue():
+
+    if session.get("role") != "tester":
+
+        return "Access denied", 403
+
+    if request.method == "POST":
+
+        page = request.form["page"]
+
+        category = request.form["category"]
+
+        message = request.form["message"]
+
+        connection = get_db_connection()
+
+        connection.execute(
+
+            """
+
+            INSERT INTO reports
+
+            (user_id, page, category, message)
+
+            VALUES (?, ?, ?, ?)
+
+            """,
+
+            (
+
+                session["user_id"],
+
+                page,
+
+                category,
+
+                message
+
+                )
+
+        )
+
+        connection.commit()
+
+        connection.close()
+
+        return redirect(url_for("dashboard"))
+
+    return render_template("report_issue.html")
+
+@app.route("/reports")
+
+def reports():
+
+    if session.get("role") != "main":
+
+        return "Access denied", 403
+
+    connection = get_db_connection()
+
+    reports = connection.execute(
+
+        """
+
+        SELECT
+
+            reports.*,
+
+            users.username
+
+        FROM reports
+
+        JOIN users
+
+        ON reports.user_id = users.id
+
+        ORDER BY reports.created_at DESC
+
+        """
+
+    ).fetchall()
+
+    connection.close()
+
+    return render_template(
+
+        "reports.html",
+
+        reports=reports
+        
+    )
+
 
 @app.route("/english") #Sets route for the general english page 
 

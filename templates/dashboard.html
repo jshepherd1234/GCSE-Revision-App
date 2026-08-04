@@ -42,9 +42,21 @@ Account type: {{ role }}
 
     </a>
 
+    <a href="{{ url_for("reports") }}" class="button">
+
+    View Reports
+
+    </a>
+
 {% elif role == "tester" %}
 
     <h2>Testing Tools</h2>
+
+    <a href="{{ url_for("report_issue") }}" class="button">
+
+        Report an Issue
+
+    </a>
 
 {% else %}
 
