@@ -1,7 +1,62 @@
-from flask import Flask, render_template, request #Importing the flask library which will handle requests and brininging in the HTML file
+from flask import (Flask, render_template, request, session, redirect, url_for)
+
+import os
+
+import random
+
+import sqlite3
+
+from questions.macbeth_quiz import macbeth_quiz_questions
+
 from jinja2 import TemplateNotFound
 
+from werkzeug.security import generate_password_hash, check_password_hash
+
 app = Flask(__name__) #Creates the flask application
+
+DATABASE = "database.db"
+
+TESTER_CODE = "GCSEtesterCode2803"
+
+def get_db_connection():
+
+    connection = sqlite3.connect(DATABASE)
+
+    connection.row_factory = sqlite3.Row
+
+    return connection
+
+def create_tables():
+
+    connection = get_db_connection()
+
+    connection.execute("""
+    
+    CREATE TABLE IF NOT EXISTS users (
+
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+        username TEXT UNIQUE NOT NULL,
+
+        password TEXT NOT NULL,
+
+        role TEXT NOT NULL
+
+    )
+
+    """)
+
+    connection.commit()
+
+    connection.close()
+    
+app.secret_key = os.environ.get(
+
+    "SECRET_KEY",
+
+    "temporary-development-secret-key"
+
+)
 
 page_status = {
 
@@ -681,114 +736,147 @@ macduff_data = {
 
 }
 
-macbeth_quiz_questions = [
-
-    {
-
-        "question": "What is Macbeth's hamartia?",
-
-        "options": [
-
-            "Loyalty",
-
-            "Ambition",
-
-            "Kindness",
-
-            "Patience"
-        ],
-
-        "answer": "Ambition"
-
-    },
-
-    {
-
-        "question": "Who first tells Macbeth he will become king?",
-
-        "options": [
-
-            "Banquo",
-
-            "Lady Macbeth",
-
-            "The Witches",
-
-            "Macduff"
-
-        ],
-
-        "answer": "The Witches"
-
-    },
-
-    {
-
-        "question": "Which character acts as a moral contrast to Macbeth?",
-
-        "options": [
-
-            "Banquo",
-
-            "Lady Macbeth",
-
-            "Malcolm",
-
-            "The Porter"
-
-        ],
-
-        "answer": "Banquo"
-
-    },
-
-    {
-    
-        "question": "Who kills Macbeth at the end of the play?",
-    
-        "options": [
-    
-            "Malcolm",
-    
-            "Banquo",
-    
-            "Macduff",
-    
-            "Lady Macbeth"
-    
-        ],
-    
-        "answer": "Macduff"
-    
-    },
-
-    {
-    
-        "question": "Which theme is most closely linked to Lady Macbeth's decline?",
-    
-        "options": [
-    
-            "Comedy",
-    
-            "Guilt",
-    
-            "Ambition",
-    
-            "Appearence versus reality"
-    
-        ],
-    
-        "answer": "Guilt"
-    
-    },
-
-]
-
 @app.route("/") #Sets the route for the homepage
 
 def homepage(): #Creates function for the homepage
 
     return render_page_or_coming_soon("home.html")
+
+#Register page
+#=============
+@app.route("/register", methods=["GET", "POST"])
+
+def register():
+
+    if request.method == "POST":
+
+        username = request.form["username"]
+
+        password = request.form["password"]
+
+        role = request.form["role"]
+
+        tester_code = request.form.get("tester_code")
+
+        if role == "tester":
+
+            if tester_code != TESTER_CODE:
+
+                return "Invalid tester code"
+
+        hashed_password = generate_password_hash(password)
+
+        connection = get_db_connection()
+
+        try:
+
+            connection.execute(
+
+                """
+
+                INSERT INTO users
+                
+                (username, password, role)
+
+                VALUES (?, ?, ?)
+
+                """,
+
+                (
+
+                    username,
+
+                    hashed_password,
+
+                    role
+                )
+
+            )
+
+            connection.commit()
+
+        except sqlite3.IntegrityError:
+
+            return "Username already exists"
+
+        finally:
+
+            connection.close()
+
+        return redirect(url_for("login"))
+
+    return render_template("register.html")
+
+#Login page
+#==========
+@app.route("/login", methods=["GET", "POST"])
+
+def login():
+
+    if request.method == "POST":
+
+        username = request.form["username"]
+
+        password = request.form["password"]
+
+        connection = get_db_connection()
+
+        user = connection.execute(
+
+            "SELECT * FROM users WHERE username = ?",
+
+            (username,)
+
+        ).fetchone()
+
+        connection.close()
+
+        if user and check_password_hash(user["password"], password):
+
+            session["user_id"] = user["id"]
+
+            session["username"] = user["username"]
+
+            session["role"] = user["role"]
+
+            return redirect(url_for("dashboard"))
+
+        else:
+
+            return "Invalid username or password"
+
+    return render_template("login.html")
+
+#Dashboard
+#=========
+@app.route("/dashboard")
+
+def dashboard():
+
+    if "username" not in session:
+
+        return redirect(url_for("login"))
+
+    return render_template(
+
+        "dashboard.html",
+
+        username = session["username"],
+
+        role = session["role"]
+
+    )
+
+#Logout
+#======
+@app.route("/logout")
+
+def logout():
+
+    session.clear()
+
+    return redirect(url_for("homepage"))
+
 
 @app.route("/english") #Sets route for the general english page 
 
@@ -896,9 +984,72 @@ def witches_character():
 
 #Quiz route
 #==========
-@app.route("/quiz/macbeth", methods=["GET", "POST"])
+@app.route("/quiz/macbeth/start", methods=["POST"])
+
+def start_macbeth_quiz():
+
+    quiz_length = request.form.get(
+
+        "quiz_length",
+
+        type=int
+
+    )    
+
+    total_questions = len(macbeth_quiz_questions)
+
+    if quiz_length is None:
+
+        return redirect(url_for("macbeth_quiz_setup"))
+
+    if quiz_length < 1 or quiz_length > total_questions:
+
+        return redirect(url_for("macbeth_quiz_setup"))
+
+    selected_questions = random.sample(
+
+        macbeth_quiz_questions,
+
+        quiz_length
+
+    )
+
+    session["macbeth_quiz_ids"] = [
+
+        question["id"]
+
+        for question in selected_questions
+
+    ]
+
+    return redirect(url_for("macbeth_quiz"))
+
+@app.route("/quiz/macbeth/questions", methods=["GET", "POST"])
 
 def macbeth_quiz():
+
+    selected_ids = session.get("macbeth_quiz_ids")
+
+    if not selected_ids:
+
+        return redirect(url_for("macbeth_quiz_setup"))
+
+    questions_by_id = {
+
+        question["id"]: question
+
+        for question in macbeth_quiz_questions
+
+    }
+
+    questions = [
+
+        questions_by_id[question_id]
+
+        for question_id in selected_ids
+        if question_id in questions_by_id
+
+    ]
 
     score = None
 
@@ -908,7 +1059,7 @@ def macbeth_quiz():
 
         score = 0
 
-        for question_number, question in enumerate(macbeth_quiz_questions):
+        for question_number, question in enumerate(questions):
 
             user_answer = request.form.get(
 
@@ -936,7 +1087,7 @@ def macbeth_quiz():
 
         "macbeth_quiz.html",
 
-        questions = macbeth_quiz_questions,
+        questions = questions,
 
         score = score,
 
@@ -944,6 +1095,17 @@ def macbeth_quiz():
 
     )
 
+@app.route("/quiz/macbeth")
+
+def macbeth_quiz_setup():
+
+    return render_template(
+
+        "macbeth_quiz_setup.html",
+
+        total_questions = len(macbeth_quiz_questions)
+
+    )
 
 @app.route("/an-inspector-calls") #Sets the route for "An inspector calls" page
 
@@ -994,5 +1156,7 @@ def template_not_found(error):
     return render_template("coming_soon.html"), 200
 
 if __name__ == "__main__":
+
+    create_tables()
 
     app.run(host="0.0.0.0", port=5000, debug=True)

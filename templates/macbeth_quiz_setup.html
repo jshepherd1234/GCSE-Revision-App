@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}
+Macbeth Quiz Setup
+{% endblock %}
+
+{% block content %}
+
+<h1>Macbeth Quiz</h1>
+
+<div class = "section quiz-setup">
+
+    <h2>Choose your quiz length</h2>
+
+    <p>
+
+        There are currently {{ total_questions }} questions available.
+
+    </p>
+
+    <form
+    
+        method = "POST"
+        
+        action = "{{ url_for("start_macbeth_quiz") }}"
+    
+        >
+
+            <label for="quiz_length">
+
+                Number of questions
+
+            </label>
+
+            <select
+
+                id = "quiz_length"
+
+                name = "quiz_length"
+
+                required
+
+            >
+
+                {% if total_questions >= 5 %}
+
+                    <option value = "5" > 5 questions </option>
+
+                {% endif %}
+
+                {% if total_questions >= 10 %}
+
+                    <option value = "10" > 10 questions </option>
+
+                {% endif %}
+
+                {% if total_questions >= 20 %}
+
+                    <option value = "20" > 20 questions </option>
+
+                {% endif %}
+
+                <option value = "{{ total_questions }}">
+
+                    All {{ total_questions }} questions
+
+                </option>
+
+            </select>
+
+            <button type="submit" class="button">
+
+                Start Quiz
+
+            </button>
+
+        </form>
+
+</div>
+
+{% endblock %}

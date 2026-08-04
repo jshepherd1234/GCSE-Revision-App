@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block content %}
+
+<h1>Create Account</h1>
+
+<div class="section account-form">
+
+<form method="POST">
+
+<label>
+
+Username
+
+</label>
+
+<input
+
+type = "text"
+
+name = "username"
+
+required
+
+>
+
+<label>
+
+Password
+
+</label>
+
+<input
+
+type = "password"
+
+name = "password"
+
+required
+
+>
+
+<label>
+
+Account type
+
+</label>
+
+<select name="role">
+
+<option value="student">
+
+Student
+
+</option>
+
+<option value="tester">
+
+Tester
+
+</option>
+
+</select>
+
+<label>
+
+Tester Code
+
+</label>
+
+<input
+
+type="text"
+
+name="tester_code"
+
+>
+
+<button type="submit" class="button">
+
+Create Account
+
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}

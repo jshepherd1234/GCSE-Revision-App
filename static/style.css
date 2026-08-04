@@ -231,6 +231,16 @@ h2 { /* Targets h2 headings*/
 
 }
 
+.nav-right{
+
+    display: flex;
+
+    gap: 15px;
+
+    align-items: center;
+
+}
+
 /* Character Revision cards */
 .character-card{
 
@@ -402,4 +412,113 @@ button.button{
 
     color: #9b3030;
     
+}
+
+.quiz-setup {
+
+    max-width: 600px;
+
+    margin: 0 auto;
+
+    text-align: center;
+
+}
+
+.quiz-setup form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+    align-items: center;
+
+}
+
+.quiz-setup select {
+
+    width: 100%;
+
+    max-width: 300px;
+
+    padding: 12px;
+
+    border: 1px solid #cccccc;
+
+    border-radius: 8px;
+
+    font-size: 1rem;
+
+}
+
+.progress-bar {
+
+    width: 100%;
+
+    height: 12px;
+
+    background-color: #e0e0e0;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    margin-bottom: 20px;
+
+}
+
+.progress-fill{
+
+    height: 100%;
+
+    background-color: #333;
+
+    transition: width 0.3s ease;
+
+}
+
+.quiz-progress-text{
+
+    text-align: right;
+
+    font-size: 0.9rem;
+
+}
+
+.account-form{
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+    max-width: 400px;
+
+}
+
+.account-form input,
+.account-form select{
+
+    padding: 10px;
+
+    font-size: 16px;
+
+    border-radius: 8px;
+
+    border: 1px solid #ccc;
+
+}
+
+.account-form label{
+
+    font-weight: bold;
+
+}
+
+.account-form .button{
+
+    margin: 10px;
+
 }

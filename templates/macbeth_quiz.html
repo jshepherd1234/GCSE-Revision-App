@@ -40,9 +40,28 @@ Macbeth Quiz
 
         <h2>
 
-            Question {{ loop.index }}
+            Question {{ loop.index }} of {{ questions|length }}
 
         </h2>
+
+        <p class="quiz-progress-text">
+
+            Progress: {{ loop.index }} / {{ questions|length }}
+
+        </p>
+
+        <div class="progress-bar">
+
+            <div
+
+                class = "progress-fill"
+
+                style = "width: {{ (loop.index / questions|length) * 100 }}%;"
+            >
+        
+        </div>
+        
+    </div>
 
         <p>
 
@@ -58,7 +77,7 @@ Macbeth Quiz
 
             {% if option == results[question_number]["correct_answer"] %}
 
-                {% set option_class = "correct_answer" %}
+                {% set option_class = "correct-answer" %}
 
             {% elif option == results[question_number]["user_answer"] %}
 
@@ -85,6 +104,8 @@ Macbeth Quiz
                             checked
 
                         {% endif %}
+
+                        disabled
 
                     {% endif %}
 
@@ -130,11 +151,23 @@ Macbeth Quiz
 
 {% endfor %}
 
+{% if score is none %}
+
 <button type="submit" class="button">
 
     Submit Quiz
     
 </button>
+
+{% else %}
+
+    <a href="{{ url_for('macbeth_quiz_setup') }}" class="button">
+
+        Try Again
+
+    </a>
+
+{% endif %}
 
 </form>
 
