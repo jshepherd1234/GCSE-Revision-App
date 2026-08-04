@@ -522,3 +522,42 @@ button.button{
     margin: 10px;
 
 }
+
+@media(max-width: 700px){
+
+    .navbar{
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 12px;
+
+    }
+
+    .navbar >a:first-child{
+
+        align-self: flex-start;
+
+    }
+
+    .nav-right{
+
+        display: grid;
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+
+        width: 100%;
+
+    }
+
+    .nav-right a{
+
+        text-align: center;
+
+        overflow-wrap: anywhere;
+    }
+    
+}
