@@ -253,8 +253,23 @@ lady_macbeth_data = {
             without consulting her.
 
             """
+        },
+
+        {
+
+            "name": "Duncan",
+
+            "description": """
+
+            Lady macbeth welcomes Duncan into her home while secretly helping to plan
+            his murder, connecting her to deception and the theme of appearance versus reality.
+
+            """
+
         }
-    ]
+
+
+    ],
 
     "quotes": [
 
@@ -302,9 +317,22 @@ lady_macbeth_data = {
 
             """
 
+        },
+
+        {
+
+            "tip": "Compare the change",
+
+            "reasoning": """
+
+            Explore how Lady Macbeth changes throughout the play, does she become stronger or more powerful,
+            or is she overwhelmed by guilt and paranoia?
+
+            """
         }
 
-    ]
+    ],
+
 }
 
 @app.route("/") #Sets the route for the homepage
