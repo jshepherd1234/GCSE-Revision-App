@@ -335,6 +335,283 @@ lady_macbeth_data = {
 
 }
 
+banquo_data = {
+
+    "name": "Banquo",
+
+    "overview": """
+
+    Banquo is Macbeth's friend and fellow soldier.
+    He acts as a moral contrast to Macbeth because, despite hearing the witches'
+    prophecies, he does not allow ambition to control his actions.
+
+    """,
+
+    "development": [
+
+        {
+
+            "title": "Beginning of the play",
+
+            "text": """
+
+            Banquo is presented as a brave and loyal soldier who fights alongside Macbeth.
+
+            """
+
+        },
+
+        {
+
+            "title": "Middle of the play",
+
+            "text": """
+
+            Banquo becomes suspicious of Macbeth after Duncan's murder and begins to
+            question how Macbeth gained the throne.
+
+            """
+
+        },
+
+        {
+
+            "title": "End of the play",
+
+            "text": """
+
+            Banquo is murdered because Macbeth sees him as a threat, especially because
+            of the witches' prophecy about Banquo's descendants becoming kings.
+            
+            """
+        }
+
+    ],
+
+    "relationships": [
+
+        {
+
+            "name": "Macbeth",
+
+            "description": """
+
+            Banquo and Macbeth begin as friends and equals, but they become opposites.
+            Macbeth follows his ambition, while Banquo remains honourable.
+
+            """
+
+        }
+
+    ],
+
+    "themes": [
+
+        "Loyalty",
+
+        "Morality",
+
+        "Ambition",
+
+        "Supernatural"
+
+    ],
+
+    "quotes": [
+
+        {
+
+            "text": "What, can the devil speak true?",
+
+            "theme": "Supernatural",
+
+            "explanation": """
+
+            Shows Banquo's suspicion of the witchesand contrasts with Macbeth's willingness 
+            to trust their prophecies.
+        
+            """
+
+        },
+
+        {
+
+            "text": "Thou hast it now: King, Cawdor, Glamis as the weird women promised",
+
+            "theme": "Ambition",
+
+            "explanation": """
+
+            Banquo recognises that Macbeth has gained eveything the witches predicted,
+            suggesting he suspects something is wrong.
+
+            """
+
+        }
+
+    ],
+
+    "exam_tips": [
+
+        {
+
+            "tip": "Use Banquo as a contrast to Macbeth",
+
+            "reasoning": """
+
+            Shakespeare uses Banquo to show what Macbeth could have been if he had resisted
+            temptation and ambition.
+
+            """
+
+        }
+
+    ]
+
+}
+
+macduff_data = {
+
+    "name": "Macduff",
+
+    "overview": """
+
+    Macduff is a noble warrior who opposes Macbeth's role as king and his tyranical reign.
+    he represents justice and loyalty to Scotland
+
+    """,
+
+    "development": [
+
+        {
+
+            "title": "Beginning of the play",
+
+            "text": """
+
+            Starts loyal and noble to the king, Duncan. 
+
+            """
+
+        },
+
+        {
+
+            "title": "Middle of the play",
+
+            "text": """
+
+            Begins to become suspicous of Macbeth, refuses to go to his corronation
+
+            """
+
+        },
+
+        {
+
+            "title": "End of the play",
+
+            "text": """
+
+            Macduff leads the revolt against Macbeth at the end of the play.
+            
+            """
+        }
+
+    ],
+
+    "relationships": [
+
+        {
+
+            "name": "Macbeth",
+
+            "description": """
+
+            Macbeth and Macduff become enemies towards the end of the play, Macbeth has Macduff's family murdered causing Macduff to seek
+            revenge. Macduff is the one who delivers Macbeth's anagnorisis.
+
+            """
+
+        },
+
+        {
+
+            "name": "Malcolm",
+
+            "description": """
+
+            Malcolm is the rightful king of Scotland after Duncan and is restored to the throne after Macbeth is defeated.
+
+            """
+
+        }
+
+    ],
+
+    "themes": [
+
+        "Justice",
+
+        "Loyalty",
+
+        "Kingship",
+
+        "Revenge"
+
+    ],
+
+    "quotes": [
+
+        {
+
+            "text": "Bleed, bleed, poor country!",
+
+            "theme": "Justice",
+
+            "explanation": """
+
+            Shows Macbeth's effect on Scotland due to his tyrannical reign.
+
+            """
+
+        },
+
+        {
+
+            "text": "Turn, hell-hound, turn!",
+
+            "theme": "Revenge",
+
+            "explanation": """
+
+            Macduff insults Macbeth and wishes to challnge him to return Scotland to it's rightful state, and to bring justice for his family.
+
+            """
+
+        }
+
+    ],
+
+    "exam_tips": [
+
+        {
+
+            "tip": "Compare Macduff's morality with Macbeth's corruption",
+
+            "reasoning": """
+
+            Compare how Macduff refuses to swear loyalty to Macbeth and how he seeks jusctice and to put Malcolm,
+            the rightful king, to the throne.
+            
+            """
+
+        }
+
+    ]
+
+}
+
 @app.route("/") #Sets the route for the homepage
 
 def homepage(): #Creates function for the homepage
@@ -421,7 +698,10 @@ def lady_macbeth_character():
 
 def banquo_character():
 
-    return render_template("banquo_character.html")
+    return render_template(
+        "character.html",
+        character=banquo_data
+    )
 
 #Macduff character route
 #-----------------------
