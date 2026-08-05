@@ -228,40 +228,42 @@ h2 { /* Targets h2 headings*/
 
     }
 
-}
+    .navbar{
 
-.navbar{
+        flex-direction: column;
 
-    flex-direction: column;
+        align-items: stretch;
 
-    align-items: stretch;
+        gap: 12px;
 
-    gap: 12px;
+    }
 
-}
+    .navbar > a:first-child{
 
-.navbar > a:first-child{
+        align-self: flex-start;
 
-    align-self: flex-start;
-}
+    }
 
-.nav-right{
+    .nav-right{
 
-    display: grid;
+        display: grid;
 
-    grid-template-columns: repeat(2, minmax(0,1 fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
 
-    gap: 10px;
+        gap: 10px;
 
-    width: 100%;
+        width: 100%;
 
-}
+    }
 
-.nav-right a{
+    .nav-right a{
 
-    text-align: center;
+        text-align: center;
 
-    overflow-wrap: anywhere;
+        overflow-wrap: anywhere;
+
+    }
+
 }
 
 /* Character Revision cards */
