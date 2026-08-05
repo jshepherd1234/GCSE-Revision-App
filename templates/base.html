@@ -49,13 +49,22 @@
         <span>
 
             {{ session["username"]}}
-            
+
         </span>
 
+        {% if session.get("role") == "main" %}
+
+            <a href="{{ url_for("switch_role", role="main") }}">
+
+                Main View
+
+            </a>
+
+        {% endif %}
+
         <a href="{{ url_for("logout") }}">
-        
+
             Logout
-        
         </a>
 
     {% else %}

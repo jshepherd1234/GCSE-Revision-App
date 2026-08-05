@@ -211,7 +211,7 @@ h2 { /* Targets h2 headings*/
 .button{
 
     margin: 5px;
-    
+
 }
 
 /* Styles navigation links */
@@ -367,13 +367,17 @@ h2 { /* Targets h2 headings*/
 
     padding: 12px 25px;
 
-    background: white;
+    background: #222;
+
+    color: white;
 
     border-radius: 12px;
     
     text-decoration: none;
 
     font-weight: bold;
+
+    text-align: center;
     
 }
 
@@ -569,5 +573,67 @@ button.button{
 .account-form .button{
 
     margin: 10px;
+
+}
+
+.report-form{
+
+    max-width: 700px;
+
+    margin: auto;
+
+}
+
+.report-form form{
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+}
+
+.report-form label{
+
+    font-weight: bold;
+
+}
+
+.report-form input,
+
+.report-form select,
+
+.report-form textarea{
+
+    width: 100%;
+
+    padding: 12px;
+
+    font-size: 1rem;
+
+    border-radius: 8px;
+
+    border: 1px solid #ccc;
+
+    font-family: Arial, sans-serif;
+
+}
+
+.report-form textarea{
+
+    resize: vertical;
+
+}
+
+.report-form input:focus,
+
+.report-form select:focus,
+
+.report-form textarea:focus{
+
+    outline: none;
+
+    border-color: #333;
 
 }

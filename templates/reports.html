@@ -50,6 +50,18 @@ Reports
 
 </p>
 
+<a href="{{ url_for("update_report", report_id=report["id"], status="In Progress") }}" class="button">
+
+    Mark In Progress
+
+</a>
+
+<a href="{{ url_for("update_report", report_id=report["id"], status="Fixed") }}" class="button">
+
+    Mark Fixed
+
+</a>
+
 </div>
 
 {% else %}

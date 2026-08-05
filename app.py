@@ -887,7 +887,7 @@ def dashboard():
 
         username = session["username"],
 
-        role = session["role"]
+        role = session.get("view_role", session["role"])
 
     )
 
@@ -900,6 +900,24 @@ def logout():
     session.clear()
 
     return redirect(url_for("homepage"))
+
+#Switch role
+#===========
+@app.route("/switch-role/<role>")
+
+def switch_role(role):
+
+    if session.get("role") != "main":
+
+        return "Access Denied", 403
+
+    if role not in ["main", "tester", "student"]:
+
+        return "Invalid role", 400
+
+    session["view_role"] = role
+
+    return redirect(url_for("dashboard"))
 
 #Create tester
 #=============
@@ -1055,6 +1073,58 @@ def reports():
         reports=reports
         
     )
+
+@app.route("/update-report/<int:report_id>/<status>")
+
+def update_report(report_id, status):
+
+    if session.get("role") != "main":
+
+        return "Access denied", 403
+
+    allowed_statuses = [
+
+        "Open",
+
+        "In Progress",
+
+        "Fixed"
+
+    ]
+
+    if status not in allowed_statuses:
+
+        return "Invalid Status", 400
+
+    connection = get_db_connection()
+
+    connection.execute(
+
+        """
+
+        UPDATE reports
+
+        SET status = ?
+
+        WHERE id = ?
+
+        """,
+
+        (
+
+            status,
+
+            report_id
+
+        )
+
+    )
+
+    connection.commit()
+
+    connection.close()
+
+    return redirect(url_for("reports"))
 
 @app.route("/my-reports")
 

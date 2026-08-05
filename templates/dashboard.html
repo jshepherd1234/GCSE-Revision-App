@@ -28,6 +28,26 @@ Dashboard
     
 {% if role == "main" %}
 
+    <h3>Preview Accounts</h3>
+
+    <a href="{{ url_for("switch_role", role="tester") }}" class="button">
+
+        View as a Tester
+
+    </a>
+
+     <a href="{{ url_for("switch_role", role="student") }}" class="button">
+
+        View as a Student
+
+    </a>
+
+     <a href="{{ url_for("switch_role", role="main") }}" class="button">
+
+        Return to Main
+
+    </a>
+
     <h2>Admin Tools</h2>
 
     <a href="{{ url_for("create_tester") }}" class="button">
@@ -55,7 +75,7 @@ Dashboard
     <a href="{{ url_for("my_reports") }}" class="button">
 
         My Reports
-        
+
     </a>
 
 {% else %}
