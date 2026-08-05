@@ -10,31 +10,25 @@ Dashboard
 
 <div class="section">
 
-<h2>
-
-Welcome {{ username }}
-
-</h2>
+<h2>Account</h2>
 
 <p>
 
-Account type: {{ role }}
+    <strong>Username:</strong> {{ username }}
 
 </p>
 
-<a href="{{ url_for("logout") }}" class="button">
+<p>
 
-    Logout
-
-</a>
-
+    <strong>Account type: </strong> {{ role }}
+</p>
 </div>
 
 <div class="section">
     
 {% if role == "main" %}
 
-    <h2>Admin tools</h2>
+    <h2>Admin Tools</h2>
 
     <a href="{{ url_for("create_tester") }}" class="button">
 
@@ -62,8 +56,26 @@ Account type: {{ role }}
 
     <h2>Revision</h2>
 
+    <p>
+
+        Your revision progress will appear here.
+
+    </p>
+
+    <a href="{{ url_for("quiz") }}" class="button">
+
+        Start Revising
+        
+    </a>
+
 {% endif %}
 
 </div>
+
+<a href="{{ url_for("logout") }}" class="button">
+
+    Logout
+
+</a>
 
 {% endblock %}

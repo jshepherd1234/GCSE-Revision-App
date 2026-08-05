@@ -190,6 +190,30 @@ h2 { /* Targets h2 headings*/
 
 }
 
+.nav-right{
+
+        display: flex;
+
+        gap: 15px;
+
+        align-items: center;
+
+}
+
+.nav-right span{
+
+    font-weight: bold;
+
+    color: black;
+
+}
+
+.button{
+
+    margin: 5px;
+    
+}
+
 /* Styles navigation links */
 .navbar a {
 
