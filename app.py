@@ -96,7 +96,7 @@ page_status = {
 
     "macbeth_overview.html": True,
 
-    "macbeth)_characters.html": True,
+    "macbeth_characters.html": True,
 
     "macbeth_themes.html": True,
 
@@ -774,19 +774,25 @@ def register():
 
     if request.method == "POST":
 
-        username = request.form["username"]
+        username = request.form["username"].strip()
 
         password = request.form["password"]
 
-        role = request.form["role"]
+        requested_role = request.form.get("role", "student")
 
-        tester_code = request.form.get("tester_code")
+        tester_code = request.form.get("tester_code", "").strip()
 
-        if role == "tester":
+        if requested_role == "tester":
 
             if tester_code != TESTER_CODE:
 
                 return "Invalid tester code"
+
+            role = "tester"
+
+        else:
+
+            role = "student"
 
         hashed_password = generate_password_hash(password)
 
@@ -978,6 +984,116 @@ def create_tester():
         return redirect(url_for("dashboard"))
 
     return render_template("create_tester.html")
+
+@app.route("/manage-accounts")
+
+def manage_accounts():
+
+    if session.get("role") != "main":
+
+        return "Access denied", 403
+
+    connection = get_db_connection()
+
+    users = connection.execute(
+
+        """
+
+        SELECT id, username, role
+
+        FROM users
+
+        ORDER BY username
+
+        """
+
+    ).fetchall()
+
+    connection.close()
+
+    return render_template(
+
+        "manage_accounts.html",
+
+        users=users
+
+    )
+
+@app.route("/delete-account/<int:user_id>", methods=["POST"])
+
+def delete_account(user_id):
+
+    if session.get("role") != "main":
+
+        return "Access denied", 403
+
+    if user_id == session.get("user_id"):
+
+        return ("You cannot delete your own account (yet)"), 400
+
+    connection = get_db_connection()
+
+    user = connection.execute(
+
+        """
+
+        SELECT id, role
+
+        FROM users
+
+        WHERE id = ?
+
+        """,
+
+        (user_id,)
+
+    ).fetchone()
+
+    if user is None:
+
+        connection.close()
+
+        return "Account not found", 404
+
+    if user["role"] == "main":
+
+        connection.close()
+
+        return "Main accounts cannot be deleted here", 403
+
+    connection.execute(
+
+        """
+
+        DELETE FROM reports
+
+        WHERE id = ?
+
+        """,
+
+        (user_id,)
+
+    )
+
+    connection.execute(
+
+        """
+
+        DELETE FROM users
+
+        WHERE id = ?
+
+        """,
+
+        (user_id,)
+
+    )
+
+    connection.commit()
+
+    connection.close()
+
+    return redirect(url_for("manage_accounts"))
 
 
 @app.route("/report-issue", methods=["GET", "POST"])
@@ -1181,7 +1297,7 @@ def english_literture():
 
 def english_language():
 
-    return render_page_or_coming_soon("english)_langauge.html")
+    return render_page_or_coming_soon("english_langauge.html")
 
 
 @app.route("/jekyll-hyde") #Sets route for Jekyll and hyde page

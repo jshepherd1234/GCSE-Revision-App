@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}
+Manage Accounts
+{% endblock %}
+
+{% block content %}
+
+<h1>Manage Accounts</h1>
+
+<div class="section">
+
+    <p>
+
+        View and manage registered users.
+
+    </p>
+
+</div>
+
+<div class="account-list">
+
+{% for user in users %}
+
+    <div class="section account-management-card">
+
+        <div>
+
+            <h2>{{ user["username"] }}</h2>
+
+            <p>
+
+                <strong>Account type:</strong>
+
+                {{ user["role"] | title }}
+
+            </p>
+
+            <p>
+
+                <strong>User ID:</strong>
+
+                {{ user["id"] }}
+
+            </p>
+
+        </div>
+
+        <div class="account-actions">
+
+            {% if user["role"] != "main" %}
+
+                <form
+
+                    method="POST"
+
+                    action="{{ url_for('delete_account', user_id=user['id']) }}"
+
+                    onsubmit="return confirm('Delete this account permanently?');"
+
+            >
+
+                    <button type="submit" class="button danger-button">
+
+                        Delete Account
+
+                    </button>
+
+                </form>
+
+            {% else %}
+
+                <span class="protected-account">
+
+                    Protected main account
+
+                    </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+{% else %}
+
+    <div class="section">
+
+        <p>No accounts were found.</p>
+
+    </div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

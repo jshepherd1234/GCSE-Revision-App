@@ -288,6 +288,22 @@ h2 { /* Targets h2 headings*/
 
     }
 
+    .account-management-card{
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    .account-actions form,
+
+    .account-actions button{
+
+        width: 100%;
+        
+    }
+
 }
 
 /* Character Revision cards */
@@ -635,5 +651,63 @@ button.button{
     outline: none;
 
     border-color: #333;
+
+}
+
+.account-list{
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+}
+
+.account-management-card{
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+}
+
+.account-actions{
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+.danger_button{
+
+    background: #b42318;
+
+    color: white;
+
+    border: none;
+
+    cursor: pointer;
+
+}
+
+.danger_button:hover{
+
+    background: #8f1c13;
+
+}
+
+.protected-account{
+
+    font-weight: bold;
+
+    color: #555;
 
 }
