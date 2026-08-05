@@ -186,7 +186,7 @@ h2 { /* Targets h2 headings*/
     border-radius: 10px;
 
     /* Creates a box shadow */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1)
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 
 }
 
@@ -226,84 +226,6 @@ h2 { /* Targets h2 headings*/
     /* Sets font weight */
     font-weight: bold;
     
-}
-
-/* Applies only on phones */
-@media (max-width: 700px) {
-
-    .navbar,
-    .page-container {
-
-        width: calc(100% - 32px);
-
-    }
-
-    .card {
-
-        max-width: none;
-
-        width: 100%;
-
-    }
-
-    .character-card{
-
-        padding: 24px;
-
-    }
-
-    .navbar{
-
-        flex-direction: column;
-
-        align-items: stretch;
-
-        gap: 12px;
-
-    }
-
-    .navbar > a:first-child{
-
-        align-self: flex-start;
-
-    }
-
-    .nav-right{
-
-        display: grid;
-
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-
-        gap: 10px;
-
-        width: 100%;
-
-    }
-
-    .nav-right a{
-
-        text-align: center;
-
-        overflow-wrap: anywhere;
-
-    }
-
-    .account-management-card{
-
-        flex-direction: column;
-
-        align-items: stretch;
-
-    }
-
-    .account-actions form,
-
-    .account-actions button{
-
-        width: 100%;
-        
-    }
-
 }
 
 /* Character Revision cards */
@@ -557,13 +479,21 @@ button.button{
 
 .account-form{
 
+    max-width: 400px;
+
+    margin-left: auto;
+
+    margin-right: auto;
+
+}
+
+.account-form form{
+
     display: flex;
 
     flex-direction: column;
 
     gap: 15px;
-
-    max-width: 400px;
 
 }
 
@@ -680,13 +610,15 @@ button.button{
 
     display: flex;
 
-    align-items: center;
+    flex-direction: column;
+
+    align-items: stretch;
 
     gap: 10px;
 
 }
 
-.danger_button{
+.danger-button{
 
     background: #b42318;
 
@@ -698,7 +630,7 @@ button.button{
 
 }
 
-.danger_button:hover{
+.danger-button:hover{
 
     background: #8f1c13;
 
@@ -709,5 +641,191 @@ button.button{
     font-weight: bold;
 
     color: #555;
+
+}
+
+.flash-message{
+
+    padding: 14px 18px;
+
+    margin-bottom: 20px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+
+}
+
+.flash-message.success{
+
+    background: #dff6e4;
+
+    border: 1px solid #59a96a;
+
+    color: #215c2e;
+
+}
+
+.account-filter-form{
+
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 16px;
+
+    align-items: end;
+
+}
+
+.account-filter-form > div{
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+}
+
+.account-filter-form label{
+
+    font-weight: bold;
+
+}
+
+.account-filter-form input,
+.account-filter-form select{
+
+    padding: 11px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 1rem;
+
+}
+
+.filter-actions{
+
+    grid-column: 1 / -1;
+
+    flex-direction: row !important;
+
+    flex-wrap: wrap;
+
+}
+
+.password-reset-form{
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+}
+
+.password-reset-form input{
+
+    padding: 11px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    font-size: 1rem;
+
+}
+
+
+/* Applies only on phones */
+@media (max-width: 700px) {
+
+    .navbar,
+    .page-container {
+
+        width: calc(100% - 32px);
+
+    }
+
+    .card {
+
+        max-width: none;
+
+        width: 100%;
+
+    }
+
+    .character-card{
+
+        padding: 24px;
+
+    }
+
+    .navbar{
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 12px;
+
+    }
+
+    .navbar > a:first-child{
+
+        align-self: flex-start;
+
+    }
+
+    .nav-right{
+
+        display: grid;
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+
+        width: 100%;
+
+    }
+
+    .nav-right a{
+
+        text-align: center;
+
+        overflow-wrap: anywhere;
+
+    }
+
+    .account-management-card{
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    .account-actions form,
+
+    .account-actions button{
+
+        width: 100%;
+        
+    }
+
+    .account-filter-form{
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .filter-actions{
+
+        grid-column: auto;
+        
+    }
 
 }

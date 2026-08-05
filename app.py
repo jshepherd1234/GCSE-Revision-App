@@ -1,4 +1,4 @@
-from flask import (Flask, render_template, request, session, redirect, url_for)
+from flask import (Flask, render_template, request, session, redirect, url_for, flash)
 
 import os
 
@@ -985,6 +985,8 @@ def create_tester():
 
     return render_template("create_tester.html")
 
+#Managing accounts
+#=================
 @app.route("/manage-accounts")
 
 def manage_accounts():
@@ -993,19 +995,53 @@ def manage_accounts():
 
         return "Access denied", 403
 
-    connection = get_db_connection()
+    username = request.args.get("username", "").strip()
 
-    users = connection.execute(
+    role = request.args.get("role", "").strip()
 
-        """
+    user_id = request.args.get("user_id", "").strip()
+
+    query = """
 
         SELECT id, username, role
 
         FROM users
 
-        ORDER BY username
+        WHERE 1 = 1
 
-        """
+    """
+
+    parameters = []
+
+    if username:
+
+        query += "AND username LIKE ?"
+
+        parameters.append(f"%{username}%")
+
+    if role:
+
+        query += " AND role = ?"
+
+        parameters.append(role)
+
+    if user_id:
+
+        if user_id.isdigit():
+
+            query += " AND id = ?"
+
+            parameters.append(int(user_id))
+
+    query += " ORDER BY username"
+
+    connection = get_db_connection()
+
+    users = connection.execute(
+
+        query,
+
+        parameters
 
     ).fetchall()
 
@@ -1015,10 +1051,100 @@ def manage_accounts():
 
         "manage_accounts.html",
 
-        users=users
+        users=users,
+
+        selected_role=role,
+
+        selected_user_id=user_id
 
     )
 
+#Temp password reset
+#===================
+@app.route("/reset-password/<int:user_id>", methods=["POST"])
+
+def reset_password(user_id):
+
+    if session.get("role") != "main":
+
+        return "Access denied", 403
+
+    new_password = request.form.get("new_password", "").strip()
+
+    if len(new_password) < 6:
+
+        flash("Password must be at least 6 characters.", "error")
+
+        return redirect(url_for("manage_accounts"))
+
+    connection = get_db_connection()
+
+    user = connection.execute(
+
+        """
+
+        SELECT id, role
+
+        FROM users
+
+        WHERE id = ?
+
+        """,
+
+        (user_id,)
+
+    ).fetchone()
+
+    if user is not None:
+
+        connection.close()
+
+        flash("Account not found", "error")
+
+        return redirect(url_for("manage_accounts"))
+
+    if user["role"] == "main":
+
+        connection.close()
+
+        flash("Main-account passwords cannot be reset here.", "error")
+
+        return redirect (url_for("manage_accounts"))
+
+    hashed_password = generate_password_hash(new_password)
+
+    connection.execute(
+
+        """
+
+        UPDATE users
+
+        SET password = ?
+
+        WHERE id = ?
+
+        """,
+
+        (
+
+            hashed_password,
+
+            user_id
+
+        )
+
+    )
+
+    connection.commit()
+
+    connection.close()
+
+    flash("Password reset successfully.", "success")
+
+    return redirect(url_for("manage_accounts"))
+
+#Deleting accounts ability
+#=========================
 @app.route("/delete-account/<int:user_id>", methods=["POST"])
 
 def delete_account(user_id):
@@ -1093,9 +1219,12 @@ def delete_account(user_id):
 
     connection.close()
 
+    flash("Account deleted successfully.", "success")
+
     return redirect(url_for("manage_accounts"))
 
-
+#Report issue ability
+#====================
 @app.route("/report-issue", methods=["GET", "POST"])
 
 def report_issue():

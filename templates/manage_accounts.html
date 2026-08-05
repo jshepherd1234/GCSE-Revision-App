@@ -10,6 +10,136 @@ Manage Accounts
 
 <div class="section">
 
+    <form method="GET" class="account-filter-form">
+
+        <div>
+
+            <label for="username">
+
+                username
+
+            </label>
+
+            <input
+
+                id="username"
+
+                type="text"
+
+                name="username"
+
+                value="{{ selected_username }}"
+
+                placeholder="Search username"
+
+            >
+
+        </div>
+
+        <div>
+
+            <label for="user_id">
+
+                User ID
+
+            </label>
+
+            <input
+
+                id="user-id"
+
+                type="number"
+
+                name="user_id"
+
+                value="{{ selected_user_id }}"
+
+                placeholder="User ID"
+
+                min="1"
+
+            >
+
+        </div>
+
+        <div>
+
+            <label for="role">
+
+                Account type
+
+            </label>
+
+            <select id="role" name="role">
+
+                <option value="">
+
+                    All account types
+
+                </option>
+
+                <option
+
+                    value="student"
+
+                    {% if selected_role == "student" %}selected{% endif %}
+
+                >
+            
+                    Student
+
+            </option>
+
+            <option
+
+                value="tester"
+
+                {% if selected_role == "tester" %}selected{% endif %}
+
+            >
+        
+                Tester
+
+            </option>
+
+            <option
+
+                value="main"
+
+                {% if selected_role == "main" %}selected{% endif %}
+
+            >
+        
+                Main
+            
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="filter-actions">
+
+            <button type="submit" class="button">
+
+                Apply Filters
+
+            </button>
+
+            <a href="{{ url_for('manage_accounts') }}" class="button">
+
+                Clear Filters
+
+            </a>
+
+        </div>
+
+    </form>
+    
+</div>
+
+<div class="section">
+
     <p>
 
         View and manage registered users.
@@ -50,6 +180,38 @@ Manage Accounts
 
             {% if user["role"] != "main" %}
 
+            <form
+
+                method="POST"
+
+                action="{{ url_for('reset_password', user_id=user['id']) }}"
+
+                class="password-reset-form"
+
+            >
+                
+                    <input
+
+                        type="password"
+
+                        name="new_password"
+
+                        placeholder="New temporary password"
+
+                        minlength="6"
+
+                        required
+
+                    >
+
+                    <button type="submit" class="button">
+
+                        Reset password
+
+                    </button>
+                
+                </form>
+
                 <form
 
                     method="POST"
@@ -59,6 +221,7 @@ Manage Accounts
                     onsubmit="return confirm('Delete this account permanently?');"
 
             >
+
 
                     <button type="submit" class="button danger-button">
 
