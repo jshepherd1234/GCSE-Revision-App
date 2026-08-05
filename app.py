@@ -1056,6 +1056,44 @@ def reports():
         
     )
 
+@app.route("/my-reports")
+
+def my_reports():
+
+    if session.get("role")!= "tester":
+
+        return "Access denied!", 403
+
+    connection = get_db_connection()
+
+    reports = connection.execute(
+
+        """
+
+        SELECT *
+
+        FROM reports 
+
+        WHERE user_id = ?
+
+        ORDER BY created_at DESC
+
+        """,
+
+        (session["user_id"],)
+
+    ).fetchall()
+
+    connection.close()
+
+    return render_template(
+
+        "my_reports.html",
+
+        reports=reports
+
+    )
+
 
 @app.route("/english") #Sets route for the general english page 
 

@@ -52,6 +52,12 @@ Dashboard
 
     </a>
 
+    <a href="{{ url_for("my_reports") }}" class="button">
+
+        My Reports
+        
+    </a>
+
 {% else %}
 
     <h2>Revision</h2>
@@ -65,7 +71,7 @@ Dashboard
     <a href="{{ url_for("quiz") }}" class="button">
 
         Start Revising
-        
+
     </a>
 
 {% endif %}
