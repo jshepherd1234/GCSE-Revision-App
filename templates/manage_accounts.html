@@ -10,6 +10,51 @@ Manage Accounts
 
 <div class="section">
 
+    <h2>Tester Registration Code</h2>
+
+    <p>
+
+        Set the code required when someone creates a tester account.
+        The current code cannot be viewed.
+
+    </p>
+
+    <form
+
+        method="POST"
+
+        action="{{ url_for('change_tester_code') }}"
+
+        class = "password-reset-form"
+
+    >
+
+        <input
+    
+            type="password"
+            
+            name="new_tester_code"
+        
+            placeholder="Enter a new tester code"
+        
+            minlength = "8"
+        
+            required
+        
+        >
+    
+        <button type="submit" class="button">
+
+            Change Tester Code
+
+        </button>
+    
+    </form>
+
+</div>
+
+<div class="section">
+
     <form method="GET" class="account-filter-form">
 
         <div>
@@ -38,7 +83,7 @@ Manage Accounts
 
         <div>
 
-            <label for="user_id">
+            <label for="user-id">
 
                 User ID
 

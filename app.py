@@ -16,8 +16,6 @@ app = Flask(__name__) #Creates the flask application
 
 DATABASE = "database.db"
 
-TESTER_CODE = "GCSEtesterCode2803"
-
 def get_db_connection():
 
     connection = sqlite3.connect(DATABASE)
@@ -69,6 +67,18 @@ def create_tables():
     )
     
     """)
+    
+    connection.execute("""
+
+    CREATE TABLE IF NOT EXISTS app_settings(
+    
+        setting_name TEXT PRIMARY KEY,
+        
+        setting_value TEXT NOT NULL
+        
+    )
+
+    """)
 
     connection.commit()
 
@@ -81,6 +91,74 @@ app.secret_key = os.environ.get(
     "temporary-development-secret-key"
 
 )
+
+def get_setting(setting_name):
+
+    connection = get_db_connection()
+
+    setting = connection.execute(
+
+        """
+
+        SELECT setting_value
+
+        FROM app_settings
+
+        WHERE setting_name = ?
+
+        """,
+
+        (setting_name,)
+
+    ).fetchone()
+
+    connection.close()
+
+    if setting is None:
+
+        return None
+
+    return setting["setting_value"]
+
+def save_setting(setting_name, setting_value):
+
+    connection = get_db_connection()
+
+    connection.execute(
+
+        """
+
+        INSERT INTO app_settings(
+        
+            setting_name,
+            
+            setting_value
+            
+        )
+
+        VALUES (?, ?)
+
+        ON CONFLICT(setting_name)
+
+        DO UPDATE SET
+
+            setting_value = excluded.setting_value
+
+        """,
+
+        (
+
+            setting_name,
+
+            setting_value
+
+        )
+
+    )
+
+    connection.commit()
+
+    connection.close()
 
 page_status = {
 
@@ -784,11 +862,28 @@ def register():
 
         if requested_role == "tester":
 
-            if tester_code != TESTER_CODE:
+                stored_tester_code = get_setting("tester_code")
 
-                return "Invalid tester code"
+                if(
 
-            role = "tester"
+                    stored_tester_code is None
+
+                    or not check_password_hash(
+
+                        stored_tester_code,
+
+                        tester_code
+                    )
+
+                ):
+
+                    flash("Invalid tester code", "error")
+
+                    return redirect(url_for("register"))
+
+                
+
+                role = "tester"
 
         else:
 
@@ -827,7 +922,9 @@ def register():
 
         except sqlite3.IntegrityError:
 
-            return "Username already exists"
+            flash("That username already exists.", "error")
+
+            return redirect(url_for("register"))
 
         finally:
 
@@ -873,7 +970,9 @@ def login():
 
         else:
 
-            return "Invalid username or password"
+            flash("Invalid username or password", "error")
+
+            return redirect(url_for("login"))
 
     return render_template("login.html")
 
@@ -985,6 +1084,56 @@ def create_tester():
 
     return render_template("create_tester.html")
 
+#Changing tester registration code
+#=================================
+@app.route("/change-tester-code", methods=["POST"])
+
+def change_tester_code():
+
+    if session.get("role") != "main":
+
+        return "Access denied", 403
+
+    new_code = request.form.get(
+
+        "new_tester_code",
+
+        ""
+
+    ).strip()
+
+    if len(new_code) < 8:
+
+        flash(
+
+            "Tester code must be at least 8 characters.",
+
+            "error"
+
+        )
+
+        return redirect(url_for("manage_accounts"))
+
+    hashed_code = generate_password_hash(new_code)
+
+    save_setting(
+
+        "tester_code",
+
+        hashed_code
+
+    )
+
+    flash(
+
+        "Tester registration code changed successfully.",
+
+        "success"
+
+    )
+
+    return redirect(url_for("manage_accounts"))
+
 #Managing accounts
 #=================
 @app.route("/manage-accounts")
@@ -1053,6 +1202,8 @@ def manage_accounts():
 
         users=users,
 
+        selected_username=username,
+
         selected_role=role,
 
         selected_user_id=user_id
@@ -1095,7 +1246,7 @@ def reset_password(user_id):
 
     ).fetchone()
 
-    if user is not None:
+    if user is None:
 
         connection.close()
 
@@ -1193,7 +1344,7 @@ def delete_account(user_id):
 
         DELETE FROM reports
 
-        WHERE id = ?
+        WHERE user_id = ?
 
         """,
 
