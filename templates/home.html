@@ -6,11 +6,9 @@ GCSE Revision app
 
 {% block content %}
 
-<h1>GCSE Revision app</h1>
-
 <div class="welcome-card">
 
-    <h2> Welcome </h2>
+    <h1> 📚 GCSE Revision Hub </h1>
 
     <p>
 
@@ -20,142 +18,175 @@ GCSE Revision app
 
     <p>
 
-        Choose a subject below to start revising.
+        Revise subjects, test your knowledge and track your progress.
+
     </p>
 
-</div>
+    {% if session.get("username") %}
 
-<h2>Quick Access</h2>
+        <a href="{{ url_for('dashboard') }}" class="button">
 
-<div class="card-container">
+            Go to Dashboard
 
-    <a href="/quiz" class="card">
+        </a>
 
-        <h3> Quiz </h3>
+    {% else %}
 
-        <p>
+        <a href="{{ url_for('register') }}" class="button">
 
-            Test your knowledge
+            Get Started
 
-        </p>
+        </a>
 
-    </a>
+        <a href="{{ url_for('login') }}" class="button">
 
-    <a href="/planner" class="card">
+            Login
 
-        <h3>Essay Planner</h3>
+        </a>
 
-        <p>
-
-            Plan your exam answers
-
-        </p>
-
-    </a>
+    {% endif %}
 
 </div>
 
-<h2>Subjects</h2>
+<div class="section">
 
-<div class="card-container">
+    <h2>
 
-    <a href="/english" class="card">
-       
-       <h3> 📖 English </h3> 
+        Subjects
 
-       <p>
+    </h2>
 
-           Revise English Literature or English Language
+    <div class="card-container">
 
-       </p>
+        <a href="{{ url_for('english') }}" class="card">
 
-    </a>
+            <h3>
 
-    <a href="/maths" class="card">
-          
-       <h3> ➗ Maths </h3> 
+                📖 English
 
-       <p>
+            </h3>
 
-            Revise maths
+            <p>
 
-       </p>
+                Literature and Language revision
 
-    </a>
+            </p>
+        
+        </a>
 
-    <a href="/biology" class="card">
-          
-       <h3> 🧬 Biology </h3> 
+        <a href="#" class="card">
 
-       <p>
+            <h3>
 
-            Revise Biology topics B1-B7.
+                ➗ Maths
 
-       </p>
+            </h3>
 
-    </a>
+            <p>
 
-    <a href="/chemistry" class="card">
-          
-       <h3> 🧪 Chemistry </h3> 
+                Coming soon
 
-       <p>
+            </p>
+        
+        </a>
 
-            Revise Chemistry topics C1-C10.
+            <a href="#" class="card">
 
-       </p>
+                <h3>
 
-    </a>
+                    🧬 Science
 
-    <a href="/physics" class="card">
+                </h3>
 
-        <h3> ⚡ Physics </h3>
+                <p>
 
-        <p>
+                    Biology, Chemistry and Physics
 
-            Revise all Physics topics
+                </p>
+        
+            </a>
 
-        </p>
+            <a href="#" class="card">
 
-    </a>
+                <h3>
 
-    <a href="/geography" class="card">
+                    🌍 Humanities           
 
-        <h3> 🌍 Geography </h3>
+                </h3>
 
-        <p>
+                <p>
 
-            Revise all Geography topics
+                    History and Geography
 
-        </p>
+                </p>
+        
+            </a>
 
-    </a>
+        </div>
 
-    <a href="/cscience" class="card">
+    </div>
 
-        <h3> 💻 Computer Science </h3>
 
-        <p>
 
-            Revise all Computer Science topics
+<div class="section">
 
-        </p>
+    <h2>
 
-    </a>
+        Features
 
-    <a href="/french" class="card">
+    </h2>
 
-        <h3> French </h3>
+    <div class="card-container">
 
-        <p>
+        <div class="card">
 
-            Revise all French topics
+            <h3>
 
-        </p>
+                🧠 Quizzes
 
-    </a>
+            </h3>
 
-    
+            <p>
+
+                Test yourself and identify areas to improve.
+
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+
+                🗂 Flashcards
+
+            </h3>
+
+            <p>
+
+                Quickly revise important information.
+
+            </p>
+
+        </div>
+
+        <div class="card">
+
+            <h3>
+
+                📈 Progress tracking
+
+            </h3>
+
+            <p>
+
+                Monitor your improvement over time.
+
+            </p>
+
+        </div>
+
+    </div>
 
 </div>
 
