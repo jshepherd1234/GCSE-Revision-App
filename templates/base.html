@@ -24,70 +24,67 @@
 
 <nav class="navbar">
 
-    <a href="javascript:history.back()">
+    <div class="nav-brand">
 
-        &larr; Back
+        <a href="{{ url_for('homepage') }}">
 
-    </a>
-
-    <div class="nav-right">
-
-    <a href="{{ url_for("homepage") }}">
-
-        Home
-
-    </a>
-
-    {% if session.get("username") %}
-
-        <a href="{{ url_for("dashboard") }}">
-
-            Dashboard
+            📚 GCSE Revision Hub
 
         </a>
 
-        <span>
+    </div>
 
-            {{ session["username"]}}
+    <div class="nav-right">
 
-        </span>
+        {% if session.get("username") %}
 
-        {% if session.get("role") == "main" %}
+            <a href="{{ url_for('dashboard') }}">
 
-            <a href="{{ url_for("switch_role", role="main") }}">
+                Dashboard
 
-                Main View
+            </a>
+
+            {% if session.get("role") == "main" %}
+
+                <a href="{{ url_for('reports') }}">
+
+                    Reports
+
+                </a>
+
+            {% endif %}
+
+            <span class="nav-user">
+
+                👤 {{ session["username"] }}
+
+            </span>
+
+            <a href="{{ url_for('logout') }}" class="logout-button">
+
+                Logout
+
+            </a>
+
+        {% else %}
+
+            <a href="{{ url_for('login') }}">
+
+                Login
+
+            </a>
+
+            <a href="{{ url_for('register') }}" class="button">
+
+                Register
 
             </a>
 
         {% endif %}
 
-        <a href="{{ url_for("logout") }}">
-
-            Logout
-        </a>
-
-    {% else %}
-
-        <a href="{{ url_for("login") }}">
-
-            Login
-        
-        </a>
-
-        <a href="{{ url_for("register") }}">
-
-            Register
-
-        </a>
-
-    {% endif %}
-
     </div>
 
 </nav>
-
-<!-- Other pages can put their content here -->
 
 <main class="page-container">
 
@@ -115,13 +112,23 @@
 
 </main>
 
+<footer class="footer">
+
+    <p>
+
+        © 2026 GCSE Revision Hub       
+
+    </p>
+
+</footer>
+
 <script>
 
-if("serviceWorker" in navigator) {
+    if("serviceWorker" in navigator) {
 
-    navigator.serviceWorker.register("/static/service-worker.js");
+        navigator.serviceWorker.register("/static/service-worker.js");
 
-}
+    }
 
 </script>
 

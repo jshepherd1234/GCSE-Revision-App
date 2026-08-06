@@ -6,11 +6,121 @@ Dashboard
 
 {% block content %}
 
-<h1>Dashboard</h1>
+<div class="dashboard-header">
+
+    <h1>
+
+        Welcome back, {{ username }} 👋
+
+    </h1>
+
+    <p>
+
+        Ready to continue revising?
+
+    </p>
+
+</div>
+
+<div class="dashboard-grid">
+
+    <a href="{{ url_for('english') }}" class="dashboard-card">
+
+        <div class="dashboard-icon">
+
+            📚
+
+        </div>
+
+        <h2>
+
+            Subjects
+
+        </h2>
+
+        <p>
+
+            Explore your GCSE revision topics.
+
+        </p>
+
+    </a>
+
+    <a href="{{ url_for('quiz') }}" class="dashboard-card">
+
+        <div class="dashboard-icon">
+
+            📝
+
+        </div>
+
+        <h2>
+
+            Quizzes
+
+        </h2>
+
+        <p>
+
+            Test your knowledge
+
+        </p>
+
+    </a>
+
+    <a href="{{ url_for('flashcards') }}" class="dashboard-card">
+
+        <div class="dashboard-icon">
+
+            🗂️
+
+        </div>
+
+        <h2>
+
+            Flashcards
+
+        </h2>
+
+        <p>
+
+            Revise key information quickly.
+
+        </p>
+
+    </a>
+
+    <a href="{{ url_for('progress') }}" class="dashboard-card">
+
+        <div class="dashboard-icon">
+
+            📊
+
+        </div>
+
+        <h2>
+
+            Progress
+
+        </h2>
+
+        <p>
+
+            Track your revision.
+
+        </p>
+
+    </a>
+
+</div>
 
 <div class="section">
 
-<h2>Account</h2>
+<h2>
+
+    Account
+
+</h2>
 
 <p>
 
@@ -20,94 +130,92 @@ Dashboard
 
 <p>
 
-    <strong>Account type: </strong> {{ role }}
+    <strong>Account type:</strong> {{ role | title }}
+
 </p>
+
 </div>
 
-<div class="section">
-    
 {% if role == "main" %}
 
-    <h3>Preview Accounts</h3>
+<div class="section">
 
-    <a href="{{ url_for("switch_role", role="tester") }}" class="button">
+<h2>
 
-        View as a Tester
+    Admin Tools ⚙️
 
-    </a>
+</h2>
 
-     <a href="{{ url_for("switch_role", role="student") }}" class="button">
-
-        View as a Student
-
-    </a>
-
-     <a href="{{ url_for("switch_role", role="main") }}" class="button">
-
-        Return to Main
-
-    </a>
-
-    <h2>Admin Tools</h2>
-
-    <a href="{{ url_for("create_tester") }}" class="button">
+<a href="{{ url_for('create_tester') }}" class="button">
 
     Create Tester Account
 
-    </a>
+</a>
 
-    <a href="{{ url_for("reports") }}" class="button">
+<a href="{{ url_for('manage_accounts') }}" class="button">
+
+    Manage Accounts
+    
+</a>
+
+<a href="{{ url_for('reports') }}" class="button">
 
     View Reports
+    
+</a>
 
-    </a>
+<hr>
 
-    <a href="{{ url_for("manage_accounts") }}" class="button">
+<h3>
 
-        Manage Accounts
-        
-    </a>
+    Preview Accounts
 
-{% elif role == "tester" %}
+</h3>
 
-    <h2>Testing Tools</h2>
+<a href="{{ url_for('switch_role', role='tester') }}" class="button">
 
-    <a href="{{ url_for("report_issue") }}" class="button">
+    Tester View
+    
+</a>
 
-        Report an Issue
+<a href="{{ url_for('switch_role', role='student') }}" class="button">
 
-    </a>
+    Student View
+    
+</a>
 
-    <a href="{{ url_for("my_reports") }}" class="button">
+<a href="{{ url_for('switch_role', role='main') }}" class="button">
 
-        My Reports
-
-    </a>
-
-{% else %}
-
-    <h2>Revision</h2>
-
-    <p>
-
-        Your revision progress will appear here.
-
-    </p>
-
-    <a href="{{ url_for("quiz") }}" class="button">
-
-        Start Revising
-
-    </a>
-
-{% endif %}
+    Main View
+    
+</a>
 
 </div>
 
-<a href="{{ url_for("logout") }}" class="button">
+{% elif role == "tester" %}
 
-    Logout
+<div class="section">
 
+<h2>
+
+    Testing Tools 🐛
+
+</h2>
+
+<a href="{{ url_for('report_issue') }}" class="button">
+
+    Report Issue
+    
 </a>
+
+<a href="{{ url_for('my_reports') }}" class="button">
+
+    My Reports
+    
+</a>
+
+</div>
+
+{% endif %}
 
 {% endblock %}
