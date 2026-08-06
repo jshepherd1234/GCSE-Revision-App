@@ -219,11 +219,97 @@ Manage Accounts
 
             </p>
 
+            <p>
+
+                <strong>Status:</strong>
+
+                {% if user["is_frozen"] %}
+
+                    <span class="status-badge status-frozen">
+
+                        Frozen
+
+                    </span>
+
+                {% else %}
+
+                    <span class="status-badge status-active">
+
+                        Active
+
+                    </span>
+
+                {% endif %}
+
+            </p>
+
         </div>
 
         <div class="account-actions">
 
             {% if user["role"] != "main" %}
+
+            <form
+
+                method="POST"
+
+                action="{{ url_for('set_account_frozen', user_id=user['id']) }}"
+                
+            >
+
+                {% if user["is_frozen"] %}
+
+                    <input
+
+                        type="hidden"
+
+                        name="action"
+
+                        value="unfreeze"
+
+                    >
+
+                    <button
+
+                        type="submit"
+
+                        class="button success-button"
+
+                    >
+                
+                        Unfreeze account
+                    
+                    </button>
+
+                {% else %}
+
+                    <input
+
+                        type="hidden"
+
+                        name="action"
+
+                        value="freeze"
+
+                    >
+
+                    <button
+
+                        type="submit"
+
+                        class="button warning-button"
+
+                        onclick="return confirm('Freeze this account?');"
+
+                    >
+                
+                        Freeze Account
+                    
+                    </button>
+
+                {% endif %}
+
+            </form>
 
             <form
 

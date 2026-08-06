@@ -38,11 +38,41 @@ def create_tables():
 
         password TEXT NOT NULL,
 
-        role TEXT NOT NULL
+        role TEXT NOT NULL,
+
+        is_frozen INTEGER NOT NULL DEFAULT 0
 
     )
 
     """)
+
+    columns = connection.execute(
+
+        "PRAGMA table_info(users)"
+
+    ).fetchall()
+
+    column_names = [
+
+        column["name"]
+
+        for column in columns
+
+    ]
+
+    if "is_frozen" not in column_names:
+
+        connection.execute(
+
+            """
+
+            ALTER TABLE users
+
+            ADD COLUMN is_frozen INTEGER NOT NULL DEFAULT 0
+
+            """
+
+        )
 
     connection.execute("""
     
@@ -960,6 +990,19 @@ def login():
 
         if user and check_password_hash(user["password"], password):
 
+            if user["is_frozen"]:
+
+                flash(
+
+                    "This account has been frozen. Contact the administrator.",
+                    "error"
+
+                )
+
+                return redirect(url_for("login"))
+
+            session.clear()
+
             session["user_id"] = user["id"]
 
             session["username"] = user["username"]
@@ -1134,6 +1177,116 @@ def change_tester_code():
 
     return redirect(url_for("manage_accounts"))
 
+#Freeze and unfreeze account
+#===========================
+@app.route("/set-account-frozen/<int:user_id>", methods=["POST"])
+
+def set_account_frozen(user_id):
+
+    if session.get("role") != "main":
+
+        return "Access denied", 403
+
+    if user_id == session.get("user_id"):
+
+        flash("You cannot freeze your own account.", "error")
+
+        return redirect(url_for("manage_accounts"))
+
+    action = request.form.get("action", "")
+
+    if action not in ["freeze", "unfreeze"]:
+
+        flash("Invalid account action.", "error")
+
+        return redirect(url_for("manage_accounts"))
+
+    connection = get_db_connection()
+
+    user=connection.execute(
+
+        """
+
+        SELECT id, username, role, is_frozen
+
+        FROM users
+
+        WHERE id = ?
+
+        """,
+
+        (user_id,)
+
+    ).fetchone()
+
+    if user is None:
+
+        connection.close()
+
+        flash("Account not found.", "error")
+
+        return redirect(url_for("manage_accounts"))
+
+    if user["role"] == "main":
+
+        connection.close()
+
+        flash("Main accounts cannot be frozen.", "error")
+
+        return redirect(url_for("manage_accounts"))
+
+    new_status = 1 if action == "freeze" else 0
+
+    username = user["username"]
+
+    connection.execute(
+
+        """
+
+        UPDATE users
+
+         SET is_frozen = ?
+
+        WHERE id = ?
+
+        """,
+
+        (
+
+            new_status,
+
+            user_id
+
+        )
+
+    )
+
+    connection.commit()
+
+    connection.close()
+
+    if new_status == 1:
+
+        flash(
+
+            f"{username} has been frozen.",
+            "success"
+
+        )
+
+    else:
+
+        flash(
+
+            f"{username} has been unfrozen.",
+            "success"
+
+        )
+
+    return redirect(url_for("manage_accounts"))
+
+
+
 #Managing accounts
 #=================
 @app.route("/manage-accounts")
@@ -1152,7 +1305,7 @@ def manage_accounts():
 
     query = """
 
-        SELECT id, username, role
+        SELECT id, username, role, is_frozen
 
         FROM users
 
@@ -1164,7 +1317,7 @@ def manage_accounts():
 
     if username:
 
-        query += "AND username LIKE ?"
+        query += " AND username LIKE ?"
 
         parameters.append(f"%{username}%")
 
