@@ -9,4 +9,5 @@ __pycache__/
 
 #Ignores personal vs code settings
 .vscode/ 
+.env
 database.db

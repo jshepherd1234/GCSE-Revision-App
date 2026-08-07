@@ -16,7 +16,9 @@ from datetime import datetime, timedelta
 
 app = Flask(__name__) #Creates the flask application
 
-DATABASE = "database.db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+DATABASE = os.path.join(BASE_DIR, "database.db")
 
 def get_db_connection():
 
@@ -132,13 +134,11 @@ def create_tables():
 
     connection.close()
     
-app.secret_key = os.environ.get(
+app.secret_key = os.environ.get("SECRET_KEY")
 
-    "SECRET_KEY",
+if not app.secret_key:
 
-    "temporary-development-secret-key"
-
-)
+    app.secret_key = "temporary-development-secret-key"
 
 def get_setting(setting_name):
 
