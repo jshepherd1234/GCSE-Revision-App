@@ -725,6 +725,22 @@ button.button{
 
 }
 
+.status-online{
+
+    background: #dcfce7;
+
+    color: #166534;
+
+}
+
+.status-offline{
+
+    background: #e2e8f0;
+
+    color: #475569;
+    
+}
+
 .warning-button{
 
     background: #d97706;

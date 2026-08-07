@@ -243,6 +243,30 @@ Manage Accounts
 
             </p>
 
+            <p>
+
+                <strong>Online status:</strong>
+
+                {% if user["is_online"] %}
+
+                    <span class="status-badge status-online">
+
+                        Online
+
+                    </span>
+
+                {% else %}
+
+                 <span class="status-badge status-offline">
+
+                    Offline
+
+                 </span>
+
+                {% endif %}
+                
+            </p>
+
         </div>
 
         <div class="account-actions">

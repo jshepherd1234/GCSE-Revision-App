@@ -12,6 +12,8 @@ from jinja2 import TemplateNotFound
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from datetime import datetime, timedelta
+
 app = Flask(__name__) #Creates the flask application
 
 DATABASE = "database.db"
@@ -40,7 +42,9 @@ def create_tables():
 
         role TEXT NOT NULL,
 
-        is_frozen INTEGER NOT NULL DEFAULT 0
+        is_frozen INTEGER NOT NULL DEFAULT 0,
+
+        last_active TIMESTAMP
 
     )
 
@@ -69,6 +73,20 @@ def create_tables():
             ALTER TABLE users
 
             ADD COLUMN is_frozen INTEGER NOT NULL DEFAULT 0
+
+            """
+
+        )
+
+    if "last_active" not in column_names:
+
+        connection.execute(
+
+            """
+
+            ALTER TABLE users
+
+            ADD COLUMN last_active TIMESTAMP
 
             """
 
@@ -190,6 +208,77 @@ def save_setting(setting_name, setting_value):
 
     connection.close()
 
+@app.before_request
+
+def update_last_active():
+
+    user_id = session.get("user_id")
+
+    if user_id is None:
+
+        return
+
+    connection = get_db_connection()
+
+    user = connection.execute(
+
+        """
+
+        SELECT is_frozen
+
+        FROM users
+
+        WHERE id = ?
+
+        """,
+
+        (user_id,)
+
+    ).fetchone()
+
+    if user is None:
+
+        connection.close()
+
+        session.clear()
+
+        return redirect(url_for("login"))
+
+    if user["is_frozen"]:
+
+        connection.close()
+
+        session.clear()
+
+        flash(
+
+            "Your account has been frozen.",
+            "error"
+
+        )
+
+        return redirect(url_for("login"))
+
+    connection.execute(
+
+        """
+
+        UPDATE users
+
+        SET last_active = CURRENT_TIMESTAMP
+
+        WHERE id = ?
+
+        """,
+
+        (user_id,)
+
+    )
+
+    connection.commit()
+
+    connection.close()
+    
 page_status = {
 
     "jekyll_hyde.html": False,
@@ -1045,6 +1134,32 @@ def dashboard():
 
 def logout():
 
+    user_id = session.get("user_id")
+
+    if user_id is not None:
+
+        connection = get_db_connection()
+
+        connection.execute(
+
+            """
+
+            UPDATE users
+
+            SET last_active = NULL
+
+            WHERE id = ?
+
+            """,
+
+            (user_id,)
+
+        )
+
+        connection.commit()
+
+        connection.close()
+
     session.clear()
 
     return redirect(url_for("homepage"))
@@ -1207,7 +1322,7 @@ def set_account_frozen(user_id):
 
         """
 
-        SELECT id, username, role, is_frozen
+        SELECT id, username, role, is_frozen, last_active
 
         FROM users
 
@@ -1305,7 +1420,7 @@ def manage_accounts():
 
     query = """
 
-        SELECT id, username, role, is_frozen
+        SELECT id, username, role, is_frozen, last_active
 
         FROM users
 
@@ -1349,11 +1464,45 @@ def manage_accounts():
 
     connection.close()
 
+    online_cutoff = datetime.utcnow() - timedelta(minutes=5)
+
+    users_with_status = []
+
+    for user in users:
+
+        is_online = False
+
+        if user["last_active"] and not user["is_frozen"]:
+
+            last_active = datetime.fromisoformat(
+
+                user["last_active"]
+
+            )
+
+            is_online = last_active >= online_cutoff
+
+        users_with_status.append({
+
+            "id": user["id"],
+
+            "username": user["username"],
+
+            "role": user["role"],
+
+            "is_frozen": user["is_frozen"],
+
+            "last_active": user["last_active"],
+
+            "is_online": is_online
+
+        })
+
     return render_template(
 
         "manage_accounts.html",
 
-        users=users,
+        users=users_with_status,
 
         selected_username=username,
 
