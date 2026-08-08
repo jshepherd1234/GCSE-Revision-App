@@ -995,7 +995,7 @@ button.button{
     margin-top: 0;
 
     margin-bottom: 12px;
-    
+
 }
 
 .dashboard-header h1{
@@ -1129,6 +1129,14 @@ button.button{
 .preview-button-grid .button:last-child{
 
     grid-column: 1 / -1;
+
+}
+
+.account-actions > .button {
+
+    width: 100%;
+
+    text-align: center;
 
 }
 

@@ -271,6 +271,18 @@ Manage Accounts
 
         <div class="account-actions">
 
+            <a 
+                
+                href="{{ url_for('user_progress', user_id=user['id']) }}"
+
+                class="button"
+
+            >
+        
+                View Progress
+            
+            </a>
+
             {% if user["role"] != "main" %}
 
             <form
