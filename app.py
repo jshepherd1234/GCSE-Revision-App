@@ -2231,7 +2231,7 @@ def progress(): #Creating progress function
 
             total_questions,
 
-            completed at
+            completed_ at
 
         FROM quiz_attempts
 
