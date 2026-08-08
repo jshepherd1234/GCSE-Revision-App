@@ -2304,6 +2304,131 @@ def progress(): #Creating progress function
         )
     )
 
+@app.route("/user-progress/<int:user_id>")
+
+def user_progress(user_id):
+
+    if session.get("role") != "main":
+
+        return "Access denied", 403
+
+    connection = get_db_connection()
+
+    user = connection.execute(
+
+        """
+
+        SELECT id, username, role
+
+        FROM users
+
+        WHERE id = ?
+
+        """,
+
+        (user_id,)
+
+    ).fetchone()
+
+    if user is None:
+
+        connection.close()
+
+        flash("Account not found.", "error")
+
+        return redirect(url_for("manage_accounts"))
+
+    attempts = connection.execute(
+
+        """
+
+        SELECT
+
+            id,
+
+            quiz_name,
+
+            score,
+
+            total_questions,
+
+            completed_at
+
+        FROM quiz_attempts
+
+        WHERE user_id = ?
+
+        ORDER BY completed_at DESC
+
+        """,
+
+        (user_id,)
+
+    ).fetchall()
+
+    summary = connection.execute(
+
+        """
+
+        SELECT
+
+            COUNT(*) AS total_attempts,
+
+            AVG(
+        
+                CAST(score AS REAL)
+                / total_questions
+                *100
+            
+            ) AS average_percentage,
+
+            MAX(
+        
+                CAST(score AS REAL)
+                / total_questions
+                * 100
+            
+            ) AS best_percentage
+
+        FROM quiz_attempts
+
+        WHERE user_id = ?
+
+        """,
+
+        (user_id,)
+
+    ).fetchone()
+
+    connection.close()
+
+    return render_template(
+
+        "user_progress.html",
+
+        user=user,
+
+        attempts=attempts,
+
+        total_attempts=summary["total_attempts"],
+
+        average_percentage=round(
+
+            summary["average_percentage"] or 0,
+
+            1
+
+        ),
+
+        best_percentage=round(
+
+            summary["best_percentage"] or 0,
+            1
+
+        )
+        
+    )
+
 @app.errorhandler(404)
 
 def page_not_found(error):

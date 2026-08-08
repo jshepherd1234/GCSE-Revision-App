@@ -146,23 +146,27 @@ Dashboard
 
 </h2>
 
-<a href="{{ url_for('create_tester') }}" class="button">
+<div class="dashboard-button-grid admin-button-grid">
 
-    Create Tester Account
+    <a href="{{ url_for('create_tester') }}" class="button">
 
-</a>
+        Create Tester Account
 
-<a href="{{ url_for('manage_accounts') }}" class="button">
+    </a>
 
-    Manage Accounts
-    
-</a>
+    <a href="{{ url_for('manage_accounts') }}" class="button">
 
-<a href="{{ url_for('reports') }}" class="button">
+        Manage Accounts
+        
+    </a>
 
-    View Reports
-    
-</a>
+    <a href="{{ url_for('reports') }}" class="button">
+
+        View Reports
+        
+    </a>
+
+</div>
 
 <hr>
 
@@ -172,23 +176,25 @@ Dashboard
 
 </h3>
 
-<a href="{{ url_for('switch_role', role='tester') }}" class="button">
+<div class="dashboard-button-grid preview-button-grid">
 
-    Tester View
-    
-</a>
+    <a href="{{ url_for('switch_role', role='tester') }}" class="button">
 
-<a href="{{ url_for('switch_role', role='student') }}" class="button">
+        Tester View
+        
+    </a>
 
-    Student View
-    
-</a>
+    <a href="{{ url_for('switch_role', role='student') }}" class="button">
 
-<a href="{{ url_for('switch_role', role='main') }}" class="button">
+        Student View
+        
+    </a>
 
-    Main View
-    
-</a>
+    <a href="{{ url_for('switch_role', role='main') }}" class="button">
+
+        Main View
+        
+    </a>
 
 </div>
 
