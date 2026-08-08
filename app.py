@@ -2231,7 +2231,7 @@ def progress(): #Creating progress function
 
             total_questions,
 
-            completed_ at
+            completed_at
 
         FROM quiz_attempts
 
@@ -2248,24 +2248,26 @@ def progress(): #Creating progress function
     summary = connection.execute(
 
         """
-
-        COUNT(*) AS total_attempts,
-
-        AVG(
         
-            CAST(score AS REAL)
-            / total_questions
-            *100
-            
-        ) AS average_percentage
+        SELECT
 
-        MAX(
+            COUNT(*) AS total_attempts,
+
+            AVG(
             
-            CAST(score AS REAL)
-            / total_questions
-            *100
-            
-        ) AS best_percentage
+                CAST(score AS REAL)
+                / total_questions
+                *100
+                
+            ) AS average_percentage,
+
+            MAX(
+                
+                CAST(score AS REAL)
+                / total_questions
+                *100
+                
+            ) AS best_percentage
 
     FROM quiz_attempts
 
@@ -2296,7 +2298,7 @@ def progress(): #Creating progress function
 
         best_percentage=round(
 
-            summary["best_perecntage"] or 0,
+            summary["best_percentage"] or 0,
             1
 
         )
