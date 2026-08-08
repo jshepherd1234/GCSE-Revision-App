@@ -130,6 +130,28 @@ def create_tables():
 
     """)
 
+    connection.execute("""
+    
+    CREATE  TABLE IF NOT EXISTS quiz_attempts(
+    
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        
+        user_id INTEGER NOT NULL,
+        
+        quiz_name TEXT NOT NULL,
+        
+        score INTEGER NOT NULL,
+        
+        total_questions INTEGER NOT NULL,
+        
+        completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        
+        FOREIGN KEY(user_id) REFERENCES users(id)
+        
+    )
+
+    """)
+
     connection.commit()
 
     connection.close()
@@ -319,7 +341,7 @@ page_status = {
 
     "planner.html": False,
 
-    "progress.html": False
+    "progress.html": True
 
 }
 
@@ -1991,6 +2013,8 @@ def start_macbeth_quiz():
 
         return redirect(url_for("macbeth_quiz_setup"))
 
+    session.pop("macbeth_quiz_result", None)
+
     selected_questions = random.sample(
 
         macbeth_quiz_questions,
@@ -2032,13 +2056,22 @@ def macbeth_quiz():
         questions_by_id[question_id]
 
         for question_id in selected_ids
+
         if question_id in questions_by_id
 
     ]
 
+    saved_result = session.get("macbeth_quiz_result")
+
     score = None
 
     results = []
+
+    if saved_result:
+
+        score = saved_result["score"]
+
+        results = saved_result["results"]
 
     if request.method == "POST":
 
@@ -2067,6 +2100,58 @@ def macbeth_quiz():
                 "is_correct": is_correct
 
             })
+
+        if "user_id" in session:
+
+            connection = get_db_connection()
+
+            connection.execute(
+
+                """
+
+                INSERT INTO quiz_attempts(
+                    
+                    user_id,
+                        
+                    quiz_name,
+                        
+                    score,
+                        
+                    total_questions
+                        
+                )
+
+                VALUES (?, ?, ?, ?)
+
+                """,
+
+                (
+
+                    session["user_id"],
+
+                    "Macbeth",
+
+                    score,
+
+                    len(questions)
+
+                )
+
+            )
+
+            connection.commit()
+
+            connection.close()
+
+        session["macbeth_quiz_result"] = {
+
+            "score": score,
+
+            "results": results
+
+        }
+
+        return redirect(url_for("macbeth_quiz"))
 
     return render_template(
 
@@ -2126,7 +2211,96 @@ def planner(): #Creating planner function
 
 def progress(): #Creating progress function
 
-    return render_page_or_coming_soon("progress.html") #Return correct page to user
+    if "user_id" not in session:
+
+        return redirect(url_for("login"))
+
+    connection = get_db_connection()
+
+    attempts = connection.execute(
+
+        """
+
+        SELECT
+
+            id,
+
+            quiz_name,
+
+            score,
+
+            total_questions,
+
+            completed at
+
+        FROM quiz_attempts
+
+        Where user_id = ?
+
+        ORDER BY completed_at DESC
+
+        """,
+
+        (session["user_id"],)
+
+    ).fetchall()
+
+    summary = connection.execute(
+
+        """
+
+        COUNT(*) AS total_attempts,
+
+        AVG(
+        
+            CAST(score AS REAL)
+            / total_questions
+            *100
+            
+        ) AS average_percentage
+
+        MAX(
+            
+            CAST(score AS REAL)
+            / total_questions
+            *100
+            
+        ) AS best_percentage
+
+    FROM quiz_attempts
+
+    WHERE user_id = ?
+
+    """,
+
+    (session["user_id"],)
+
+    ).fetchone()
+
+    connection.close()
+
+    return render_template(
+
+        "progress.html",
+
+        attempts=attempts,
+
+        total_attempts=summary["total_attempts"],
+
+        average_percentage=round(
+            
+            summary["average_percentage"] or 0,
+            1
+
+        ),
+
+        best_percentage=round(
+
+            summary["best_perecntage"] or 0,
+            1
+
+        )
+    )
 
 @app.errorhandler(404)
 

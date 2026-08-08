@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}
+Progress
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-header">
+
+    <h1>📊 Your Progress</h1>
+
+    <p>
+        Review your quiz results and improvement.
+    </p>
+
+</div>
+
+<div class="progress-summary-grid">
+
+    <div class="section progress-summary-card">
+
+        <h2>{{ total_attempts }}</h2>
+
+        <p>Quizzes completed</p>
+
+    </div>
+
+    <div class="section progress-summary-card">
+
+        <h2>{{ average_percentage }}%</h2>
+
+        <p>Average score</p>
+
+    </div>
+
+    <div class="section progress-summary-card">
+
+        <h2>{{ best_percentage }}%</h2>
+
+        <p>Best score</p>
+
+    </div>
+
+</div>
+
+<div class="section">
+
+    <h2>Recent quiz attempts</h2>
+
+    {% if attempts %}
+
+        <div class="attempt-list">
+
+            {% for attempt in attempts %}
+
+                {% set percentage =
+                    (attempt["score"] / attempt["total_questions"] * 100)
+                    | round(1)
+                %}
+
+                <div class="attempt-card">
+
+                    <div>
+
+                        <h3>
+                            {{ attempt["quiz_name"] }}
+                        </h3>
+
+                        <p>
+                            {{ attempt["completed_at"] }}
+                        </p>
+
+                    </div>
+
+                    <div class="attempt-score">
+
+                        {{ attempt["score"] }}
+                        /
+                        {{ attempt["total_questions"] }}
+
+                        <span>
+                            {{ percentage }}%
+                        </span>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p>
+            You have not completed any quizzes yet.
+        </p>
+
+        <a href="{{ url_for('quiz') }}" class="button">
+
+            Start a Quiz
+
+        </a>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
